@@ -4,7 +4,7 @@ import { PlusCircle } from 'lucide-react';
 
 export default function TransactionForm({ onAdd, loading }) {
     const [formData, setFormData] = useState({
-        Date: format(new Date(), 'dd-MMM'),
+        Date: format(new Date(), 'yyyy-MM-dd'),
         Type: 'Earning',
         Description: 'Ride Income',
         'Amount (PKR)': ''
@@ -28,8 +28,13 @@ export default function TransactionForm({ onAdd, loading }) {
         e.preventDefault();
         if (!formData['Amount (PKR)']) return;
 
+        // Convert YYYY-MM-DD back to dd-MMM for saving
+        const [year, month, day] = formData.Date.split('-');
+        const dateObj = new Date(year, month - 1, day);
+
         onAdd({
             ...formData,
+            Date: format(dateObj, 'dd-MMM'),
             'Amount (PKR)': Number(formData['Amount (PKR)'])
         });
 
@@ -47,12 +52,11 @@ export default function TransactionForm({ onAdd, loading }) {
                 <div className="form-group mb-0">
                     <label className="form-label">Date</label>
                     <input
-                        type="text"
+                        type="date"
                         name="Date"
                         value={formData.Date}
                         onChange={handleChange}
                         className="form-input"
-                        placeholder="e.g., 04-Mar"
                         required
                     />
                 </div>
