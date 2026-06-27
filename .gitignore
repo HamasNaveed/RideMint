@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# User CSV Data
+/Indrive - Sheet1.csv
+

@@ -19,7 +19,7 @@ function App() {
       const data = await fetchTransactionsFromSupabase();
       setTransactions(data);
     } catch (err) {
-      setError("Failed to fetch data from Supabase.");
+      setError(err.message || "Failed to fetch data from Supabase.");
       console.error(err);
     } finally {
       setLoading(false);
@@ -38,7 +38,7 @@ function App() {
       // Refresh transactions after adding
       await loadData();
     } catch (err) {
-      setError("Failed to save transaction.");
+      setError(err.message || "Failed to save transaction.");
       console.error(err);
       setLoading(false);
     }
@@ -59,8 +59,10 @@ function App() {
       </header>
 
       {error && (
-        <div className="glass-panel text-danger mb-4 border-danger animate-fade-in" style={{ borderColor: 'var(--danger)' }}>
-          {error}
+        <div className="glass-panel mb-6 animate-fade-in text-center p-8 border-danger" style={{ borderColor: 'var(--danger)' }}>
+          <div className="text-danger text-lg font-semibold mb-2">⚠️ Database Connection Error</div>
+          <p className="text-muted mb-4">{error}</p>
+          <button onClick={loadData} className="btn btn-outline" style={{ display: 'inline-flex', margin: '0 auto' }}>Retry Connection</button>
         </div>
       )}
 
@@ -69,13 +71,13 @@ function App() {
           <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary mb-2" style={{ borderColor: 'var(--accent-primary)' }}></div>
           <p>Loading your data...</p>
         </div>
-      ) : (
+      ) : !error ? (
         <>
           <Dashboard transactions={transactions} />
           <TransactionForm onAdd={handleAddTransaction} loading={loading} />
           <TransactionHistory transactions={transactions} />
         </>
-      )}
+      ) : null}
     </>
   );
 }
