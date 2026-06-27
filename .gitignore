@@ -26,3 +26,8 @@ dist-ssr
 # User CSV Data
 /Indrive - Sheet1.csv
 
+# Env files
+.env
+.env.local
+.env.*
+
