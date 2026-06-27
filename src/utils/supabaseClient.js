@@ -139,8 +139,8 @@ export const fetchTransactionsFromSupabase = async () => {
         transactions.sort((a, b) => new Date(a.rawDate) - new Date(b.rawDate));
         return transactions;
     } catch (e) {
-        console.warn("Supabase fetch failed, falling back to mock localStorage data:", e);
-        return getLocalStorageTransactions();
+        console.error("Supabase fetch failed:", e);
+        throw new Error("Supabase is not running or unreachable. Please start your local Supabase database or ensure connection settings are correct.");
     }
 };
 
@@ -228,7 +228,7 @@ export const addTransactionToSupabase = async (transaction) => {
             if (createExpenseError) throw createExpenseError;
         }
     } catch (e) {
-        console.warn("Supabase insert failed, falling back to mock localStorage save:", e);
-        saveLocalStorageTransaction(newMockTx);
+        console.error("Supabase insert failed:", e);
+        throw new Error("Supabase insert failed. Please ensure your local database is running and connected.");
     }
 };
