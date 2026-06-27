@@ -4,10 +4,26 @@ const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'http://localhost:5432
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IlN1cGFiYXNlLVRyYWNrZXIiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTYyNjQ0MTYwMCwiZXhwIjoyMDQyMDc2ODAwfQ.placeholder';
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-export const HAMAS_USER_ID = 'd7b6f63a-867c-4735-97ad-e0d47346dd99';
+export const HAMAS_USER_ID = '9f69bafe-f2dd-48a7-a7a9-b56f00973450';
+
+export const ensureAuthenticated = async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+        const { error } = await supabase.auth.signInWithPassword({
+            email: 'hamas@ridemint.com',
+            password: 'password123'
+        });
+        if (error) {
+            console.error("Auto sign-in failed:", error.message);
+        } else {
+            console.log("Auto sign-in successful!");
+        }
+    }
+};
 
 export const fetchTransactionsFromSupabase = async () => {
     try {
+        await ensureAuthenticated();
         // 1. Fetch daily logs
         const { data: logs, error: logsError } = await supabase
             .from('daily_logs')
@@ -83,6 +99,7 @@ export const addTransactionToSupabase = async (transaction) => {
     let dbDate = transaction.rawDate || new Date().toISOString().split('T')[0];
 
     try {
+        await ensureAuthenticated();
         // 1. Find if a daily log exists for this date and user
         const { data: existingLogs, error: fetchLogError } = await supabase
             .from('daily_logs')
