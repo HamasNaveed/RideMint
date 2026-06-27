@@ -6,74 +6,6 @@ const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJ
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 export const HAMAS_USER_ID = 'd7b6f63a-867c-4735-97ad-e0d47346dd99';
 
-// Seed data fallback in case local Supabase is not running/accessible
-const FALLBACK_SEED_DATA = [
-    { Date: '16-Feb', Type: 'Earning', Description: 'Ride Income', 'Amount (PKR)': 220, rawDate: '2026-02-16' },
-    { Date: '17-Feb', Type: 'Earning', Description: 'Ride Income', 'Amount (PKR)': 860, rawDate: '2026-02-17' },
-    { Date: '18-Feb', Type: 'Earning', Description: 'Ride Income', 'Amount (PKR)': 770, rawDate: '2026-02-18' },
-    { Date: '19-Feb', Type: 'Expense', Description: 'Fuel', 'Amount (PKR)': 2000, rawDate: '2026-02-19' },
-    { Date: '19-Feb', Type: 'Earning', Description: 'Ride Income', 'Amount (PKR)': 900, rawDate: '2026-02-19' },
-    { Date: '27-Feb', Type: 'Earning', Description: 'Ride Income', 'Amount (PKR)': 840, rawDate: '2026-02-27' },
-    { Date: '28-Feb', Type: 'Expense', Description: 'Fuel', 'Amount (PKR)': 1900, rawDate: '2026-02-28' },
-    { Date: '28-Feb', Type: 'Expense', Description: 'InDrive Cost', 'Amount (PKR)': 370, rawDate: '2026-02-28' },
-    { Date: '01-Mar', Type: 'Earning', Description: 'Ride Income', 'Amount (PKR)': 670, rawDate: '2026-03-01' },
-    { Date: '01-Mar', Type: 'Expense', Description: 'Package Cost', 'Amount (PKR)': 37, rawDate: '2026-03-01' },
-    { Date: '01-Mar', Type: 'Expense', Description: 'Package Cost', 'Amount (PKR)': 17, rawDate: '2026-03-01' },
-    { Date: '03-Mar', Type: 'Earning', Description: 'Ride Income', 'Amount (PKR)': 416, rawDate: '2026-03-03' },
-    { Date: '03-Mar', Type: 'Expense', Description: 'Package Cost', 'Amount (PKR)': 17, rawDate: '2026-03-03' },
-    { Date: '04-Mar', Type: 'Earning', Description: 'Ride Income', 'Amount (PKR)': 320, rawDate: '2026-03-04' },
-    { Date: '04-Mar', Type: 'Expense', Description: 'Package Cost', 'Amount (PKR)': 17, rawDate: '2026-03-04' },
-    { Date: '05-Mar', Type: 'Expense', Description: 'Package Cost', 'Amount (PKR)': 27, rawDate: '2026-03-05' },
-    { Date: '05-Mar', Type: 'Earning', Description: 'Ride Income', 'Amount (PKR)': 320, rawDate: '2026-03-05' },
-    { Date: '05-Mar', Type: 'Earning', Description: 'Ride Income', 'Amount (PKR)': 350, rawDate: '2026-03-05' },
-    { Date: '09-Mar', Type: 'Earning', Description: 'Ride Income', 'Amount (PKR)': 400, rawDate: '2026-03-09' },
-    { Date: '09-Mar', Type: 'Earning', Description: 'Ride Income', 'Amount (PKR)': 400, rawDate: '2026-03-09' },
-    { Date: '05-Mar', Type: 'Earning', Description: 'Ride Income', 'Amount (PKR)': 250, rawDate: '2026-03-05' },
-    { Date: '12-Mar', Type: 'Expense', Description: 'Fuel', 'Amount (PKR)': 2650, rawDate: '2026-03-12' },
-    { Date: '16-Mar', Type: 'Earning', Description: 'Ride Income', 'Amount (PKR)': 400, rawDate: '2026-03-16' },
-    { Date: '06-Apr', Type: 'Earning', Description: 'Ride Income', 'Amount (PKR)': 660, rawDate: '2026-04-06' },
-    { Date: '06-Apr', Type: 'Earning', Description: 'Ride Income', 'Amount (PKR)': 450, rawDate: '2026-04-06' },
-    { Date: '06-Apr', Type: 'Expense', Description: 'Package Cost', 'Amount (PKR)': 20, rawDate: '2026-04-06' },
-    { Date: '26-Apr', Type: 'Earning', Description: 'Ride Income', 'Amount (PKR)': 1000, rawDate: '2026-04-26' },
-    { Date: '27-Apr', Type: 'Earning', Description: 'Ride Income', 'Amount (PKR)': 500, rawDate: '2026-04-27' },
-    { Date: '27-Apr', Type: 'Earning', Description: 'Ride Income', 'Amount (PKR)': 500, rawDate: '2026-04-27' },
-    { Date: '28-Apr', Type: 'Earning', Description: 'Ride Income', 'Amount (PKR)': 350, rawDate: '2026-04-28' },
-    { Date: '29-Apr', Type: 'Earning', Description: 'Ride Income', 'Amount (PKR)': 600, rawDate: '2026-04-29' },
-    { Date: '30-Apr', Type: 'Earning', Description: 'Ride Income', 'Amount (PKR)': 1050, rawDate: '2026-04-30' },
-    { Date: '30-Apr', Type: 'Expense', Description: 'Package Cost', 'Amount (PKR)': 20, rawDate: '2026-04-30' },
-    { Date: '30-Apr', Type: 'Expense', Description: 'InDrive Cost', 'Amount (PKR)': 350, rawDate: '2026-04-30' },
-    { Date: '30-Apr', Type: 'Expense', Description: 'Fuel', 'Amount (PKR)': 4960, rawDate: '2026-04-30' },
-    { Date: '04-May', Type: 'Earning', Description: 'Ride Income', 'Amount (PKR)': 900, rawDate: '2026-05-04' },
-    { Date: '04-May', Type: 'Earning', Description: 'Ride Income', 'Amount (PKR)': 230, rawDate: '2026-05-04' },
-    { Date: '04-May', Type: 'Earning', Description: 'Ride Income', 'Amount (PKR)': 240, rawDate: '2026-05-04' },
-    { Date: '05-May', Type: 'Earning', Description: 'Ride Income', 'Amount (PKR)': 400, rawDate: '2026-05-05' },
-    { Date: '05-May', Type: 'Earning', Description: 'Ride Income', 'Amount (PKR)': 450, rawDate: '2026-05-05' },
-    { Date: '06-May', Type: 'Earning', Description: 'Ride Income', 'Amount (PKR)': 860, rawDate: '2026-05-06' },
-    { Date: '06-May', Type: 'Expense', Description: 'InDrive Cost', 'Amount (PKR)': 350, rawDate: '2026-05-06' },
-    { Date: '08-May', Type: 'Earning', Description: 'Ride Income', 'Amount (PKR)': 400, rawDate: '2026-05-08' },
-    { Date: '08-May', Type: 'Earning', Description: 'Ride Income', 'Amount (PKR)': 300, rawDate: '2026-05-08' },
-    { Date: '11-May', Type: 'Earning', Description: 'Ride Income', 'Amount (PKR)': 1100, rawDate: '2026-05-11' },
-    { Date: '11-May', Type: 'Expense', Description: 'Package Cost', 'Amount (PKR)': 300, rawDate: '2026-05-11' },
-    { Date: '12-May', Type: 'Earning', Description: 'Ride Income', 'Amount (PKR)': 500, rawDate: '2026-05-12' },
-    { Date: '13-May', Type: 'Earning', Description: 'Ride Income', 'Amount (PKR)': 1000, rawDate: '2026-05-13' },
-    { Date: '07-Jun', Type: 'Expense', Description: 'Fuel', 'Amount (PKR)': 4400, rawDate: '2026-06-07' },
-    { Date: '15-Jun', Type: 'Earning', Description: 'Ride Income', 'Amount (PKR)': 550, rawDate: '2026-06-15' }
-];
-
-const getLocalStorageTransactions = () => {
-    const saved = localStorage.getItem('HAMAS_SUPABASE_MOCK_TXS');
-    if (saved) return JSON.parse(saved);
-    localStorage.setItem('HAMAS_SUPABASE_MOCK_TXS', JSON.stringify(FALLBACK_SEED_DATA));
-    return FALLBACK_SEED_DATA;
-};
-
-const saveLocalStorageTransaction = (newTx) => {
-    const txs = getLocalStorageTransactions();
-    txs.push(newTx);
-    txs.sort((a, b) => new Date(a.rawDate) - new Date(b.rawDate));
-    localStorage.setItem('HAMAS_SUPABASE_MOCK_TXS', JSON.stringify(txs));
-};
-
 export const fetchTransactionsFromSupabase = async () => {
     try {
         // 1. Fetch daily logs
@@ -149,21 +81,6 @@ export const addTransactionToSupabase = async (transaction) => {
     const amount = Number(transaction['Amount (PKR)']);
     const desc = transaction.Description;
     let dbDate = transaction.rawDate || new Date().toISOString().split('T')[0];
-
-    // Format Date for mock fallback
-    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    const d = new Date(dbDate);
-    const formattedDay = String(d.getDate()).padStart(2, '0');
-    const formattedMonth = months[d.getMonth()];
-    const formattedDate = `${formattedDay}-${formattedMonth}`;
-
-    const newMockTx = {
-        Date: formattedDate,
-        Type: transaction.Type,
-        Description: desc,
-        'Amount (PKR)': amount,
-        rawDate: dbDate
-    };
 
     try {
         // 1. Find if a daily log exists for this date and user
