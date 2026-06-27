@@ -35,6 +35,7 @@ export default function TransactionForm({ onAdd, loading }) {
         onAdd({
             ...formData,
             Date: format(dateObj, 'dd-MMM'),
+            rawDate: formData.Date,
             'Amount (PKR)': Number(formData['Amount (PKR)'])
         });
 
