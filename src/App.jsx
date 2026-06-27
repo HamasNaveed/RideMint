@@ -3,25 +3,23 @@ import { Car } from 'lucide-react';
 import Dashboard from './components/Dashboard';
 import TransactionForm from './components/TransactionForm';
 import TransactionHistory from './components/TransactionHistory';
-import ConfigModal from './components/ConfigModal';
-import { fetchTransactions, addTransaction, getAppUrl } from './utils/googleSheetsAPI';
+import { fetchTransactionsFromSupabase, addTransactionToSupabase, HAMAS_USER_ID } from './utils/supabaseClient';
 
 function App() {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [isConfigured, setIsConfigured] = useState(!!getAppUrl());
+
+  const currentUser = HAMAS_USER_ID; // Hamas
 
   const loadData = async () => {
-    if (!getAppUrl()) return;
-
     setLoading(true);
     setError(null);
     try {
-      const data = await fetchTransactions();
+      const data = await fetchTransactionsFromSupabase();
       setTransactions(data);
     } catch (err) {
-      setError("Failed to fetch data from Google Sheets.");
+      setError("Failed to fetch data from Supabase.");
       console.error(err);
     } finally {
       setLoading(false);
@@ -30,13 +28,13 @@ function App() {
 
   useEffect(() => {
     loadData();
-  }, [isConfigured]);
+  }, []);
 
   const handleAddTransaction = async (newTx) => {
     setLoading(true);
     setError(null);
     try {
-      await addTransaction(newTx);
+      await addTransactionToSupabase(newTx);
       // Refresh transactions after adding
       await loadData();
     } catch (err) {
@@ -44,11 +42,6 @@ function App() {
       console.error(err);
       setLoading(false);
     }
-  };
-
-  const handleConfigSave = () => {
-    setIsConfigured(true);
-    loadData();
   };
 
   return (
@@ -60,11 +53,9 @@ function App() {
           </div>
           <div>
             <h1 className="text-2xl text-gradient">Indrive Tracker</h1>
-            <p className="text-muted text-sm tracking-wide uppercase">Income & Expenses</p>
+            <p className="text-muted text-sm tracking-wide uppercase">Income & Expenses (User: Hamas)</p>
           </div>
         </div>
-
-        <ConfigModal onSave={handleConfigSave} />
       </header>
 
       {error && (
@@ -84,12 +75,6 @@ function App() {
           <TransactionForm onAdd={handleAddTransaction} loading={loading} />
           <TransactionHistory transactions={transactions} />
         </>
-      )}
-
-      {!isConfigured && !loading && (
-        <div className="glass-panel text-center py-8 text-warning mt-4 text-warning border-warning animate-fade-in" style={{ borderColor: 'var(--warning)', color: 'var(--warning)' }}>
-          Please configure your Google Apps Script URL using the Settings icon above to start tracking!
-        </div>
       )}
     </>
   );
