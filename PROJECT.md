@@ -543,7 +543,7 @@ Checklist
 * [x] Initialize Supabase CLI
 * [x] Create database schema
 * [x] Create migration
-* [ ] Test CRUD operations
+* [x] Test CRUD operations
 * [x] Migrate Google Sheets data
 * [ ] Open Pull Request
 * [ ] Merge into main
