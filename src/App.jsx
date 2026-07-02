@@ -3,14 +3,31 @@ import { Car } from 'lucide-react';
 import Dashboard from './components/Dashboard';
 import TransactionForm from './components/TransactionForm';
 import TransactionHistory from './components/TransactionHistory';
-import { fetchTransactionsFromSupabase, addTransactionToSupabase, HAMAS_USER_ID } from './utils/supabaseClient';
+import { fetchTransactionsFromSupabase, addTransactionToSupabase, supabase } from './utils/supabaseClient';
+import LoginModal from './components/LoginModal';
 
 function App() {
+  const [session, setSession] = useState(null);
+  const [checkingSession, setCheckingSession] = useState(true);
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const currentUser = HAMAS_USER_ID; // Hamas
+  useEffect(() => {
+    // Check current session on mount
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setCheckingSession(false);
+    });
+
+    // Listen for auth state changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      setCheckingSession(false);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   const loadData = async () => {
     setLoading(true);
@@ -27,8 +44,12 @@ function App() {
   };
 
   useEffect(() => {
-    loadData();
-  }, []);
+    if (session) {
+      loadData();
+    } else {
+      setTransactions([]);
+    }
+  }, [session]);
 
   const handleAddTransaction = async (newTx) => {
     setLoading(true);
@@ -44,6 +65,21 @@ function App() {
     }
   };
 
+  if (checkingSession) {
+    return (
+      <div className="flex items-center justify-center min-h-screen" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="text-center text-muted">
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary mb-2" style={{ borderColor: 'var(--accent-primary)' }}></div>
+          <p>Checking session...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!session) {
+    return <LoginModal onLoginSuccess={(sess) => setSession(sess)} />;
+  }
+
   return (
     <>
       <header className="flex justify-between items-center mb-6 animate-fade-in">
@@ -53,9 +89,18 @@ function App() {
           </div>
           <div>
             <h1 className="text-2xl text-gradient">Indrive Tracker</h1>
-            <p className="text-muted text-sm tracking-wide uppercase">Income & Expenses (User: Hamas)</p>
+            <p className="text-muted text-sm tracking-wide uppercase">
+              Income & Expenses (User: {session?.user?.user_metadata?.full_name || session?.user?.email || 'Hamas'})
+            </p>
           </div>
         </div>
+        <button 
+          onClick={() => supabase.auth.signOut()} 
+          className="btn btn-outline"
+          style={{ padding: '0.5rem 1rem', fontSize: '0.875rem' }}
+        >
+          Sign Out
+        </button>
       </header>
 
       {error && (
