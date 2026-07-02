@@ -9,26 +9,50 @@ export const HAMAS_USER_ID = '9f69bafe-f2dd-48a7-a7a9-b56f00973450';
 export const ensureAuthenticated = async () => {
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) {
-        const { error } = await supabase.auth.signInWithPassword({
-            email: 'hamas@ridemint.com',
-            password: 'password123'
-        });
-        if (error) {
-            console.error("Auto sign-in failed:", error.message);
-        } else {
-            console.log("Auto sign-in successful!");
-        }
+        throw new Error("No active session. Please log in.");
     }
+};
+
+export const getCurrentUserId = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+        throw new Error("No active user session.");
+    }
+    return user.id;
+};
+
+export const signInUser = async (email, password) => {
+    return await supabase.auth.signInWithPassword({ email, password });
+};
+
+export const signOutUser = async () => {
+    return await supabase.auth.signOut();
+};
+
+export const checkEmailExists = async (email) => {
+    const { data, error } = await supabase.rpc('email_exists', { email_to_check: email });
+    if (error) {
+        console.error("Error checking if email exists:", error);
+        throw error;
+    }
+    return data; // boolean
+};
+
+export const resetPassword = async (email) => {
+    return await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: window.location.origin
+    });
 };
 
 export const fetchTransactionsFromSupabase = async () => {
     try {
         await ensureAuthenticated();
+        const userId = await getCurrentUserId();
         // 1. Fetch daily logs
         const { data: logs, error: logsError } = await supabase
             .from('daily_logs')
             .select('*')
-            .eq('user_id', HAMAS_USER_ID)
+            .eq('user_id', userId)
             .order('date', { ascending: true });
 
         if (logsError) throw logsError;
@@ -37,7 +61,7 @@ export const fetchTransactionsFromSupabase = async () => {
         const { data: expenses, error: expensesError } = await supabase
             .from('expenses')
             .select('*')
-            .eq('user_id', HAMAS_USER_ID);
+            .eq('user_id', userId);
 
         if (expensesError) throw expensesError;
 
@@ -100,11 +124,12 @@ export const addTransactionToSupabase = async (transaction) => {
 
     try {
         await ensureAuthenticated();
+        const userId = await getCurrentUserId();
         // 1. Find if a daily log exists for this date and user
         const { data: existingLogs, error: fetchLogError } = await supabase
             .from('daily_logs')
             .select('*')
-            .eq('user_id', HAMAS_USER_ID)
+            .eq('user_id', userId)
             .eq('date', dbDate);
 
         if (fetchLogError) throw fetchLogError;
@@ -130,7 +155,7 @@ export const addTransactionToSupabase = async (transaction) => {
             }
         } else {
             const insertData = {
-                user_id: HAMAS_USER_ID,
+                user_id: userId,
                 date: dbDate,
                 earnings: isEarning ? amount : 0,
                 fuel_cost: (!isEarning && desc === 'Fuel') ? amount : 0,
@@ -153,7 +178,7 @@ export const addTransactionToSupabase = async (transaction) => {
                 .from('expenses')
                 .insert({
                     daily_log_id: dailyLogId,
-                    user_id: HAMAS_USER_ID,
+                    user_id: userId,
                     category: desc,
                     amount: amount,
                     description: desc
