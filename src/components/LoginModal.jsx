@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Mail, Lock, Key, ArrowLeft, AlertCircle, CheckCircle, Car } from 'lucide-react';
+import { Mail, Lock, Key, ArrowLeft, AlertCircle, CheckCircle, Car, X } from 'lucide-react';
 import { signInUser, signUpUser, checkEmailExists } from '../utils/supabaseClient';
 
-export default function LoginModal({ onLoginSuccess }) {
+export default function LoginModal({ onLoginSuccess, onClose }) {
   const [mode, setMode] = useState('login'); // 'login', 'signup', or 'forgot'
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -117,8 +117,40 @@ export default function LoginModal({ onLoginSuccess }) {
   };
 
   return (
-    <div className="login-overlay">
-      <div className="login-card">
+    <div 
+      className="login-overlay"
+      onClick={(e) => {
+        if (e.target === e.currentTarget && onClose) {
+          onClose();
+        }
+      }}
+    >
+      <div className="login-card" style={{ position: 'relative' }}>
+        {onClose && (
+          <button 
+            type="button" 
+            onClick={onClose} 
+            className="login-close-btn"
+            style={{ 
+              position: 'absolute', 
+              top: '1rem', 
+              right: '1rem', 
+              background: 'none', 
+              border: 'none', 
+              cursor: 'pointer',
+              color: 'var(--text-muted)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '0.25rem',
+              borderRadius: '50%',
+              backgroundColor: 'rgba(255, 255, 255, 0.05)',
+              zIndex: 10
+            }}
+          >
+            <X size={18} />
+          </button>
+        )}
         <div className="text-center">
           <div className="login-logo">
             <Car size={36} className="text-white" />
