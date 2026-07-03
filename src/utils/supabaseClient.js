@@ -195,3 +195,100 @@ export const addTransactionToSupabase = async (transaction) => {
         throw new Error("Supabase insert failed. Please ensure your local database is running and connected.");
     }
 };
+
+export const fetchUserProfile = async (userId) => {
+    try {
+        const { data, error } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', userId)
+            .maybeSingle();
+
+        if (error) throw error;
+        return data;
+    } catch (e) {
+        console.error("Error fetching user profile:", e);
+        throw e;
+    }
+};
+
+export const updateUserProfile = async (userId, fullName) => {
+    try {
+        const { data, error } = await supabase
+            .from('profiles')
+            .update({ full_name: fullName })
+            .eq('id', userId)
+            .select()
+            .single();
+
+        if (error) throw error;
+        return data;
+    } catch (e) {
+        console.error("Error updating user profile:", e);
+        throw e;
+    }
+};
+
+export const fetchUserVehicle = async (userId) => {
+    try {
+        const { data, error } = await supabase
+            .from('vehicles')
+            .select('*')
+            .eq('user_id', userId)
+            .maybeSingle();
+
+        if (error) throw error;
+        return data;
+    } catch (e) {
+        console.error("Error fetching user vehicle:", e);
+        throw e;
+    }
+};
+
+export const saveUserVehicle = async (userId, vehicleData) => {
+    try {
+        // First check if a vehicle record exists for the user
+        const { data: existingVehicle, error: fetchError } = await supabase
+            .from('vehicles')
+            .select('id')
+            .eq('user_id', userId)
+            .maybeSingle();
+
+        if (fetchError) throw fetchError;
+
+        let result;
+        if (existingVehicle) {
+            const { data, error } = await supabase
+                .from('vehicles')
+                .update({
+                    name: vehicleData.name,
+                    avg_consumption: vehicleData.avg_consumption ? Number(vehicleData.avg_consumption) : null,
+                    total_km: vehicleData.total_km ? parseInt(vehicleData.total_km, 10) : null
+                })
+                .eq('id', existingVehicle.id)
+                .select()
+                .single();
+
+            if (error) throw error;
+            result = data;
+        } else {
+            const { data, error } = await supabase
+                .from('vehicles')
+                .insert({
+                    user_id: userId,
+                    name: vehicleData.name,
+                    avg_consumption: vehicleData.avg_consumption ? Number(vehicleData.avg_consumption) : null,
+                    total_km: vehicleData.total_km ? parseInt(vehicleData.total_km, 10) : null
+                })
+                .select()
+                .single();
+
+            if (error) throw error;
+            result = data;
+        }
+        return result;
+    } catch (e) {
+        console.error("Error saving user vehicle:", e);
+        throw e;
+    }
+};
