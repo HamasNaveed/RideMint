@@ -1,38 +1,65 @@
-# Indrive Tracker App
+# RideMint
 
-A stunning, fast, and 100% free web app to track your Indrive earnings and expenses using Google Sheets as a database!
+A premium, fast, and feature-rich SaaS web application built for ride-hailing drivers (InDrive, Uber, Careem, etc.) to track earnings, expenses, profitability, and business performance.
 
-## How to Set Up Your Google Sheet Database
+RideMint turns manual calculations into clear, actionable financial insights with secure accounts, vehicle profiles, and automatic data synchronization.
 
-Since you want the app accessible anywhere for free, it uses a Google Sheet to store your data.
+---
 
-1. Create a new [Google Sheet](https://sheets.new).
-2. Name the first tab **Sheet1**.
-3. *Optional but recommended*: Open your existing `Indrive - Sheet1.csv`, copy the data, and paste it directly into this new Sheet.
-4. From the top menu, go to **Extensions > Apps Script**.
-5. Delete any code there, and paste the code found in `src/utils/APPS_SCRIPT.js`.
-6. Click the blue **Deploy** button at the top right, then **New deployment**.
-7. Click the gear icon next to "Select type" and choose **Web app**.
-8. Fill in:
-   - Description: `Indrive API`
-   - Execute as: `Me`
-   - Who has access: `Anyone`
-9. Click **Deploy** (you may need to "Authorize Access").
-10. Copy the **Web app URL** it gives you. You're done!
+## Features
 
-## Running the App
+- 👤 **Secure Authentication & Multi-User Support**: Individual accounts with email-password sign-in and sign-up powered by Supabase Auth.
+- 🚗 **Vehicle & Profile Management**: Track vehicle model, brand, year, mileage, and fuel type.
+- 💰 **Earnings & Expenses Tracker**: Log daily earnings, fuel costs, maintenance, and other expenses.
+- 📈 **Performance Dashboard**: Real-time summary of total earnings, total expenses, net profit, and clean visual representation.
+- ☁️ **Supabase Cloud Database**: Fully secure data storage using Row-Level Security (RLS) policies so you only see your own data.
 
-### Local Development
-```bash
-npm install
-npm run dev
-```
-Open `http://localhost:5173` in your browser. Click the **Settings (Gear Icon)** at the top right, and paste your **Web app URL**. The app will instantly download your data!
+---
 
-### Deployment (Vercel or GitHub Pages)
-Because this app saves data to Google Sheets, you don't need a backend server.
-1. Push this entire folder to a **GitHub Repository**.
-2. Go to [Vercel](https://vercel.com/) and create a new project.
-3. Import your GitHub repository.
-4. Let Vercel build it (it will run `npm run build` automatically).
-5. Click **Deploy**. Your app is now live on the internet!
+## Getting Started
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (v18 or higher recommended)
+- A [Supabase](https://supabase.com/) account
+
+### Setup Instructions
+
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/HamasNaveed/RideMint.git
+   cd RideMint
+   ```
+
+2. **Install Dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Configure Environment Variables**
+   - Copy `.env.example` to `.env`:
+     ```bash
+     cp .env.example .env
+     ```
+   - Open `.env` and fill in your Supabase project URL and Anon key.
+
+4. **Initialize the Database Schema**
+   Run the SQL migration scripts located in [supabase/migrations](file:///e:/Indrive-app%20Idea/supabase/migrations) on your Supabase SQL Editor:
+   - `20260626143418_create_transactions_table.sql`
+   - `20260702223700_add_email_exists_rpc.sql`
+   - `20260703154500_update_vehicles_schema.sql`
+
+5. **Run Locally**
+   ```bash
+   npm run dev
+   ```
+   Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+---
+
+## Deployment (Vercel or Netlify)
+
+1. Push your code to your GitHub Repository.
+2. Link the repository to [Vercel](https://vercel.com/) or Netlify.
+3. Configure the environment variables (`VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`) in your hosting provider's dashboard.
+4. Deploy! The application will build automatically using `npm run build`.
