@@ -3,7 +3,7 @@ import { Car } from 'lucide-react';
 import Dashboard from './components/Dashboard';
 import TransactionForm from './components/TransactionForm';
 import TransactionHistory from './components/TransactionHistory';
-import { fetchTransactionsFromSupabase, addTransactionToSupabase, supabase } from './utils/supabaseClient';
+import { fetchTransactionsFromSupabase, addTransactionToSupabase, supabase, fetchUserProfile, fetchUserVehicle } from './utils/supabaseClient';
 import LoginModal from './components/LoginModal';
 import ProfilePage from './components/ProfilePage';
 
@@ -50,6 +50,9 @@ function App() {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState('dashboard'); // 'dashboard' or 'profile'
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [profileData, setProfileData] = useState(null);
+  const [vehicleData, setVehicleData] = useState(null);
+  const [profileLoaded, setProfileLoaded] = useState(false);
 
   useEffect(() => {
     // Check current session on mount
@@ -93,7 +96,35 @@ function App() {
 
   useEffect(() => {
     loadData(session);
+    if (!session) {
+      setProfileData(null);
+      setVehicleData(null);
+      setProfileLoaded(false);
+    }
   }, [session]);
+
+  const handleLoadProfile = async () => {
+    if (!session) return;
+    try {
+      const userId = session.user.id;
+      const [profile, vehicle] = await Promise.all([
+        fetchUserProfile(userId),
+        fetchUserVehicle(userId)
+      ]);
+      setProfileData(profile || {});
+      setVehicleData(vehicle || {});
+      setProfileLoaded(true);
+    } catch (err) {
+      console.error("Error loading profile in parent:", err);
+      throw err;
+    }
+  };
+
+  const handleSaveProfileSuccess = (newProfile, newVehicle) => {
+    setProfileData(newProfile);
+    setVehicleData(newVehicle);
+    setProfileLoaded(true);
+  };
 
   const handleAddTransaction = async (newTx) => {
     setLoading(true);
@@ -226,7 +257,15 @@ function App() {
           ) : null}
         </>
       ) : (
-        <ProfilePage session={session} onTriggerLogin={() => setShowLoginModal(true)} />
+        <ProfilePage 
+          session={session} 
+          profileData={profileData}
+          vehicleData={vehicleData}
+          profileLoaded={profileLoaded}
+          onSaveSuccess={handleSaveProfileSuccess}
+          onTriggerLogin={() => setShowLoginModal(true)} 
+          onLoadProfile={handleLoadProfile}
+        />
       )}
 
       {showLoginModal && (
