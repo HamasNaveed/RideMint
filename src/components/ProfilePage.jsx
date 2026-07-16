@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { User, Car, Save, AlertCircle, CheckCircle, Gauge, Fuel } from 'lucide-react';
-import { fetchUserProfile, updateUserProfile, fetchUserVehicle, saveUserVehicle } from '../utils/supabaseClient';
+import { User, Car, Save, AlertCircle, CheckCircle, Gauge, Fuel, Lock } from 'lucide-react';
+import { updateUserProfile, saveUserVehicle, supabase } from '../utils/supabaseClient';
 
-export default function ProfilePage({ session, onTriggerLogin }) {
+export default function ProfilePage({ 
+  session, 
+  profileData, 
+  vehicleData, 
+  profileLoaded, 
+  onSaveSuccess, 
+  onTriggerLogin, 
+  onLoadProfile 
+}) {
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(false);
   const [error, setError] = useState(null);
@@ -14,36 +22,37 @@ export default function ProfilePage({ session, onTriggerLogin }) {
   const [avgConsumption, setAvgConsumption] = useState('');
   const [totalKm, setTotalKm] = useState('');
 
-  useEffect(() => {
-    if (session) {
-      loadProfileAndVehicle();
-    }
-  }, [session]);
+  // Password reset/update states
+  const [newPassword, setNewPassword] = useState('');
+  const [updatingPassword, setUpdatingPassword] = useState(false);
+  const [passwordSuccess, setPasswordSuccess] = useState(null);
+  const [passwordError, setPasswordError] = useState(null);
 
-  const loadProfileAndVehicle = async () => {
+  // Sync form states from cached parent props when loaded
+  useEffect(() => {
+    if (profileLoaded && profileData) {
+      setFullName(profileData.full_name || '');
+      setVehicleName(vehicleData?.name || '');
+      setAvgConsumption(vehicleData?.avg_consumption || '');
+      setTotalKm(vehicleData?.total_km || '');
+    }
+  }, [profileData, vehicleData, profileLoaded]);
+
+  // Load profile and vehicle once on mount or when session changes (if not loaded already)
+  useEffect(() => {
+    if (session && !profileLoaded) {
+      fetchData();
+    }
+  }, [session, profileLoaded]);
+
+  const fetchData = async () => {
     setFetching(true);
     setError(null);
     try {
-      const userId = session.user.id;
-      
-      // Fetch profile
-      const profile = await fetchUserProfile(userId);
-      if (profile && profile.full_name) {
-        setFullName(profile.full_name);
-      } else {
-        setFullName(session.user.user_metadata?.full_name || '');
-      }
-
-      // Fetch vehicle
-      const vehicle = await fetchUserVehicle(userId);
-      if (vehicle) {
-        setVehicleName(vehicle.name || '');
-        setAvgConsumption(vehicle.avg_consumption || '');
-        setTotalKm(vehicle.total_km || '');
-      }
+      await onLoadProfile();
     } catch (err) {
-      console.error("Failed to load profile/vehicle:", err);
-      setError("Failed to load profile details from database.");
+      console.error(err);
+      setError("Failed to load profile details.");
     } finally {
       setFetching(false);
     }
@@ -61,24 +70,66 @@ export default function ProfilePage({ session, onTriggerLogin }) {
       const userId = session.user.id;
 
       // 1. Update Profile (Name)
-      await updateUserProfile(userId, fullName);
+      const updatedProfile = await updateUserProfile(userId, fullName);
 
       // 2. Save Vehicle Info
-      const vehicleData = {
+      const vehiclePayload = {
         name: vehicleName,
         avg_consumption: avgConsumption ? Number(avgConsumption) : null,
         total_km: totalKm ? parseInt(totalKm, 10) : null
       };
-      await saveUserVehicle(userId, vehicleData);
+      const updatedVehicle = await saveUserVehicle(userId, vehiclePayload);
+
+      // Update parent cache
+      onSaveSuccess(updatedProfile, updatedVehicle);
 
       setSuccess("Profile and vehicle information saved successfully!");
-      // Automatically clear success message after 4 seconds
       setTimeout(() => setSuccess(null), 4000);
     } catch (err) {
       console.error("Failed to save profile:", err);
       setError(err.message || "Failed to update profile. Please try again.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleUpdatePassword = async (e) => {
+    e.preventDefault();
+    if (!newPassword || newPassword.length < 6) {
+      setPasswordError("Password must be at least 6 characters long.");
+      return;
+    }
+    setUpdatingPassword(true);
+    setPasswordError(null);
+    setPasswordSuccess(null);
+    try {
+      const { error: updateError } = await supabase.auth.updateUser({ password: newPassword });
+      if (updateError) throw updateError;
+      setPasswordSuccess("Password updated successfully!");
+      setNewPassword('');
+    } catch (err) {
+      console.error(err);
+      setPasswordError(err.message || "Failed to update password.");
+    } finally {
+      setUpdatingPassword(false);
+    }
+  };
+
+  const handleSendResetEmail = async () => {
+    setUpdatingPassword(true);
+    setPasswordError(null);
+    setPasswordSuccess(null);
+    try {
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(session.user.email, {
+        redirectTo: window.location.origin
+      });
+      if (resetError) throw resetError;
+      setPasswordSuccess(`Password reset email sent to ${session.user.email}! Please check your inbox.`);
+    } catch (err) {
+      console.error(err);
+      setPasswordError(err.message || "Failed to send password reset email.");
+    } finally {
+      setUpdatingPassword(false);
     }
   };
 
@@ -243,7 +294,8 @@ export default function ProfilePage({ session, onTriggerLogin }) {
           </div>
         </div>
 
-        <button type="submit" className="btn btn-primary h-[50px] flex items-center justify-center gap-2 mt-2" disabled={loading}>
+        {/* Save Button for Profile & Vehicle */}
+        <button type="submit" className="btn btn-primary h-[50px] flex items-center justify-center gap-2" disabled={loading}>
           {loading ? (
             <>
               <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
@@ -257,6 +309,57 @@ export default function ProfilePage({ session, onTriggerLogin }) {
           )}
         </button>
       </form>
+
+      {/* Account Security / Reset Password Section */}
+      <div className="glass-panel mt-6">
+        <div className="flex items-center gap-2 mb-4 border-b border-white border-opacity-10 pb-3">
+          <Lock size={18} className="text-accent-primary" />
+          <h3 className="text-lg font-semibold text-white">Account Security</h3>
+        </div>
+        
+        <div className="flex flex-col gap-4">
+          <div className="form-group mb-0">
+            <label className="form-label">New Password</label>
+            <input
+              type="password"
+              className="form-input"
+              placeholder="Enter new password (min 6 characters)"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              disabled={updatingPassword}
+            />
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-3">
+            <button 
+              type="button"
+              onClick={handleUpdatePassword}
+              className="btn btn-outline"
+              style={{ padding: '0.5rem 1.5rem', fontSize: '0.875rem' }}
+              disabled={updatingPassword || !newPassword}
+            >
+              {updatingPassword ? 'Updating...' : 'Update Password'}
+            </button>
+
+            <button 
+              type="button"
+              onClick={handleSendResetEmail}
+              className="btn btn-outline"
+              style={{ padding: '0.5rem 1.5rem', fontSize: '0.875rem' }}
+              disabled={updatingPassword}
+            >
+              Send Password Reset Email
+            </button>
+          </div>
+          
+          {passwordError && (
+            <div className="text-danger text-sm mt-1">⚠️ {passwordError}</div>
+          )}
+          {passwordSuccess && (
+            <div className="text-success text-sm mt-1">✓ {passwordSuccess}</div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
