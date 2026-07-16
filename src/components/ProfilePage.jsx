@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { User, Car, Save, AlertCircle, CheckCircle, Gauge, Fuel, Lock } from 'lucide-react';
+import { User, Car, Save, AlertCircle, CheckCircle, Gauge, Fuel, Lock, Eye, EyeOff } from 'lucide-react';
 import { updateUserProfile, saveUserVehicle, supabase } from '../utils/supabaseClient';
 
 export default function ProfilePage({ 
@@ -27,6 +27,7 @@ export default function ProfilePage({
   const [updatingPassword, setUpdatingPassword] = useState(false);
   const [passwordSuccess, setPasswordSuccess] = useState(null);
   const [passwordError, setPasswordError] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   // Sync form states from cached parent props when loaded
   useEffect(() => {
@@ -320,14 +321,35 @@ export default function ProfilePage({
         <div className="flex flex-col gap-4">
           <div className="form-group mb-0">
             <label className="form-label">New Password</label>
-            <input
-              type="password"
-              className="form-input"
-              placeholder="Enter new password (min 6 characters)"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              disabled={updatingPassword}
-            />
+            <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+              <input
+                type={showPassword ? "text" : "password"}
+                className="form-input w-full"
+                style={{ paddingRight: '2.5rem' }}
+                placeholder="Enter new password (min 6 characters)"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                disabled={updatingPassword}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                style={{
+                  position: 'absolute',
+                  right: '10px',
+                  background: 'none',
+                  border: 'none',
+                  color: 'var(--text-muted)',
+                  cursor: 'pointer',
+                  padding: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3">
