@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Lock, Key, ArrowLeft, AlertCircle, CheckCircle, Car, X } from 'lucide-react';
+import { Mail, Lock, Key, ArrowLeft, AlertCircle, CheckCircle, Car, X, Eye, EyeOff } from 'lucide-react';
 import { signInUser, signUpUser, checkEmailExists } from '../utils/supabaseClient';
 
 export default function LoginModal({ onLoginSuccess, onClose }) {
@@ -10,6 +10,8 @@ export default function LoginModal({ onLoginSuccess, onClose }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -114,6 +116,8 @@ export default function LoginModal({ onLoginSuccess, onClose }) {
     setSuccess(null);
     setPassword('');
     setConfirmPassword('');
+    setShowPassword(false);
+    setShowConfirmPassword(false);
   };
 
   return (
@@ -214,8 +218,9 @@ export default function LoginModal({ onLoginSuccess, onClose }) {
               </div>
               <div className="login-input-group">
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   className="login-input"
+                  style={{ paddingRight: '2.75rem' }}
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -223,6 +228,25 @@ export default function LoginModal({ onLoginSuccess, onClose }) {
                   required
                 />
                 <Lock size={18} className="login-input-icon" />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{
+                    position: 'absolute',
+                    right: '1rem',
+                    background: 'none',
+                    border: 'none',
+                    color: 'var(--text-muted)',
+                    cursor: 'pointer',
+                    padding: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    zIndex: 10
+                  }}
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
               </div>
             </div>
 
@@ -272,8 +296,9 @@ export default function LoginModal({ onLoginSuccess, onClose }) {
               <label className="form-label">Password</label>
               <div className="login-input-group">
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   className="login-input"
+                  style={{ paddingRight: '2.75rem' }}
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -281,6 +306,25 @@ export default function LoginModal({ onLoginSuccess, onClose }) {
                   required
                 />
                 <Lock size={18} className="login-input-icon" />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{
+                    position: 'absolute',
+                    right: '1rem',
+                    background: 'none',
+                    border: 'none',
+                    color: 'var(--text-muted)',
+                    cursor: 'pointer',
+                    padding: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    zIndex: 10
+                  }}
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
               </div>
             </div>
 
@@ -288,8 +332,9 @@ export default function LoginModal({ onLoginSuccess, onClose }) {
               <label className="form-label">Confirm Password</label>
               <div className="login-input-group">
                 <input
-                  type="password"
+                  type={showConfirmPassword ? "text" : "password"}
                   className="login-input"
+                  style={{ paddingRight: '2.75rem' }}
                   placeholder="••••••••"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
@@ -297,6 +342,25 @@ export default function LoginModal({ onLoginSuccess, onClose }) {
                   required
                 />
                 <Lock size={18} className="login-input-icon" />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  style={{
+                    position: 'absolute',
+                    right: '1rem',
+                    background: 'none',
+                    border: 'none',
+                    color: 'var(--text-muted)',
+                    cursor: 'pointer',
+                    padding: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    zIndex: 10
+                  }}
+                >
+                  {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
               </div>
             </div>
 
