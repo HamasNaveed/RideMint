@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Car } from 'lucide-react';
+import { Car, X, AlertCircle, CheckCircle } from 'lucide-react';
 import Dashboard from './components/Dashboard';
 import TransactionForm from './components/TransactionForm';
 import TransactionHistory from './components/TransactionHistory';
@@ -53,6 +53,8 @@ function App() {
   const [profileData, setProfileData] = useState(null);
   const [vehicleData, setVehicleData] = useState(null);
   const [profileLoaded, setProfileLoaded] = useState(false);
+  const [verificationStatus, setVerificationStatus] = useState(null); // null, 'success', or 'error'
+  const [verificationMessage, setVerificationMessage] = useState('');
 
   useEffect(() => {
     // Check current session on mount
@@ -68,6 +70,41 @@ function App() {
     });
 
     return () => subscription.unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      // Parse query parameters from hash
+      const params = new URLSearchParams(hash.substring(1));
+      
+      if (params.has('error') || params.has('error_description')) {
+        const errorCode = params.get('error_code');
+        const errorDesc = params.get('error_description') || 'Verification failed';
+        setVerificationStatus('error');
+        if (errorCode === 'otp_expired') {
+          setVerificationMessage('Your email verification link has expired or has already been used. Please log in or request a new link.');
+        } else {
+          setVerificationMessage(errorDesc.replace(/\+/g, ' '));
+        }
+        // Clean the hash parameters from the browser address bar
+        window.history.replaceState(null, null, window.location.pathname);
+      } else if (params.has('access_token')) {
+        const type = params.get('type');
+        if (type === 'signup' || type === 'recovery') {
+          setVerificationStatus('success');
+          setVerificationMessage(type === 'signup' 
+            ? 'Your email has been verified successfully! You are now logged in.' 
+            : 'Reset password link verified! You can now update your password in the Profile tab.'
+          );
+          if (type === 'recovery') {
+            setCurrentPage('profile');
+          }
+          // Clean the hash parameters from the browser address bar
+          window.history.replaceState(null, null, window.location.pathname);
+        }
+      }
+    }
   }, []);
 
   const loadData = async (currentSession) => {
@@ -276,6 +313,82 @@ function App() {
           }} 
           onClose={() => setShowLoginModal(false)}
         />
+      )}
+
+      {verificationStatus && (
+        <div 
+          className="login-overlay"
+          onClick={() => setVerificationStatus(null)}
+        >
+          <div className="login-card text-center" style={{ position: 'relative', maxWidth: '480px' }}>
+            <button 
+              type="button" 
+              onClick={() => setVerificationStatus(null)}
+              className="login-close-btn"
+              style={{ 
+                position: 'absolute', 
+                top: '1rem', 
+                right: '1rem', 
+                background: 'none', 
+                border: 'none', 
+                cursor: 'pointer',
+                color: 'var(--text-muted)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '0.25rem',
+                borderRadius: '50%',
+                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                zIndex: 10
+              }}
+            >
+              <X size={18} />
+            </button>
+
+            <div className="text-center">
+              <div 
+                className="login-logo mx-auto" 
+                style={{ 
+                  background: verificationStatus === 'success' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)',
+                  borderColor: verificationStatus === 'success' ? 'var(--success)' : 'var(--danger)',
+                  borderWidth: '1px',
+                  boxShadow: 'none',
+                  display: 'inline-flex',
+                  padding: '1rem',
+                  borderRadius: '50%',
+                  marginBottom: '1.5rem'
+                }}
+              >
+                {verificationStatus === 'success' ? (
+                  <CheckCircle size={36} className="text-success" />
+                ) : (
+                  <AlertCircle size={36} className="text-danger" />
+                )}
+              </div>
+              
+              <h2 className="text-2xl text-gradient mb-3" style={{ fontWeight: 700 }}>
+                {verificationStatus === 'success' ? 'Email Verified!' : 'Verification Failed'}
+              </h2>
+              
+              <p className="text-muted mb-6 leading-relaxed">
+                {verificationMessage}
+              </p>
+              
+              <button 
+                type="button"
+                onClick={() => {
+                  setVerificationStatus(null);
+                  if (verificationStatus === 'error') {
+                    setShowLoginModal(true);
+                  }
+                }}
+                className="btn btn-primary w-full"
+              >
+                {verificationStatus === 'success' ? 'Go to Dashboard' : 'Back to Login'}
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </>
   );
