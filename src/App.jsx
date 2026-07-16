@@ -6,6 +6,7 @@ import TransactionHistory from './components/TransactionHistory';
 import { fetchTransactionsFromSupabase, addTransactionToSupabase, supabase, fetchUserProfile, fetchUserVehicle } from './utils/supabaseClient';
 import LoginModal from './components/LoginModal';
 import ProfilePage from './components/ProfilePage';
+import DashboardCharts from './components/DashboardCharts';
 
 const MOCK_INITIAL_TRANSACTIONS = [
   {
@@ -53,6 +54,11 @@ function App() {
   const [profileData, setProfileData] = useState(null);
   const [vehicleData, setVehicleData] = useState(null);
   const [profileLoaded, setProfileLoaded] = useState(false);
+  const [selectedMonth, setSelectedMonth] = useState('all');
+
+  const filteredTransactions = selectedMonth === 'all'
+    ? transactions
+    : transactions.filter(t => t.rawDate && t.rawDate.substring(0, 7) === selectedMonth);
   const [verificationStatus, setVerificationStatus] = useState(null); // null, 'success', or 'error'
   const [verificationMessage, setVerificationMessage] = useState('');
 
@@ -133,6 +139,7 @@ function App() {
 
   useEffect(() => {
     loadData(session);
+    setSelectedMonth('all');
     if (!session) {
       setProfileData(null);
       setVehicleData(null);
@@ -287,9 +294,14 @@ function App() {
             </div>
           ) : !error ? (
             <>
-              <Dashboard transactions={transactions} />
+              <Dashboard transactions={filteredTransactions} />
+              <DashboardCharts 
+                transactions={transactions} 
+                selectedMonth={selectedMonth} 
+                onMonthChange={setSelectedMonth} 
+              />
               <TransactionForm onAdd={handleAddTransaction} loading={loading} />
-              <TransactionHistory transactions={transactions} />
+              <TransactionHistory transactions={filteredTransactions} />
             </>
           ) : null}
         </>
