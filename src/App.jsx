@@ -7,6 +7,7 @@ import { fetchTransactionsFromSupabase, addTransactionToSupabase, supabase, fetc
 import LoginModal from './components/LoginModal';
 import ProfilePage from './components/ProfilePage';
 import DashboardCharts from './components/DashboardCharts';
+import AICopilot from './components/ai/AICopilot';
 
 const MOCK_INITIAL_TRANSACTIONS = [
   {
@@ -235,6 +236,13 @@ function App() {
             >
               Profile
             </button>
+            <button 
+              onClick={() => setCurrentPage('copilot')}
+              className={`btn ${currentPage === 'copilot' ? 'btn-primary' : 'btn-outline'}`}
+              style={{ padding: '0.5rem 1rem', fontSize: '0.875rem' }}
+            >
+              🤖 AI Copilot
+            </button>
           </div>
 
           <div>
@@ -285,7 +293,7 @@ function App() {
         </div>
       )}
 
-      {currentPage === 'dashboard' ? (
+      {currentPage === 'dashboard' && (
         <>
           {loading && transactions.length === 0 ? (
             <div className="text-center py-12 text-muted animate-fade-in">
@@ -305,7 +313,9 @@ function App() {
             </>
           ) : null}
         </>
-      ) : (
+      )}
+
+      {currentPage === 'profile' && (
         <ProfilePage 
           session={session} 
           profileData={profileData}
@@ -314,6 +324,13 @@ function App() {
           onSaveSuccess={handleSaveProfileSuccess}
           onTriggerLogin={() => setShowLoginModal(true)} 
           onLoadProfile={handleLoadProfile}
+        />
+      )}
+
+      {currentPage === 'copilot' && (
+        <AICopilot 
+          session={session} 
+          onTriggerLogin={() => setShowLoginModal(true)} 
         />
       )}
 
