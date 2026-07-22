@@ -1,11 +1,10 @@
 import os
 import json
-from openai import AsyncOpenAI
 from backend.graph.state import RideMintState, QueryIntent
+from backend.agents.base_agent import get_agent_llm
 
 async def detect_intent_node(state: RideMintState) -> RideMintState:
-    client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-    model = os.getenv("OPENAI_MODEL_FAST", "gpt-4o-mini")
+    llm = get_agent_llm(temperature=0.1)
     
     prompt = f"""
 You are an intent classifier for RideMint, a ride-hailing driver analytics app.
@@ -30,14 +29,22 @@ Message: {state['user_message']}
 Respond ONLY in valid JSON with keys: category, confidence, time_period, entities.
 """
     
-    response = await client.chat.completions.create(
-        model=model,
-        messages=[{"role": "user", "content": prompt}],
-        response_format={"type": "json_object"},
-        temperature=0.1,
-        max_tokens=200
-    )
-    
-    intent_data = json.loads(response.choices[0].message.content)
+    try:
+        res = await llm.ainvoke(prompt)
+        content = res.content
+        if "```json" in content:
+            content = content.split("```json")[1].split("```")[0].strip()
+        elif "```" in content:
+            content = content.split("```")[1].split("```")[0].strip()
+        intent_data = json.loads(content.strip())
+    except Exception:
+        intent_data = {
+            "category": "financial_query",
+            "confidence": 0.8,
+            "time_period": "this_month",
+            "entities": []
+        }
+        
     state["intent"] = QueryIntent(**intent_data)
     return state
+
