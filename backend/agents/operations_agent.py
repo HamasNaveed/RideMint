@@ -3,10 +3,7 @@ import json
 from langchain_openai import ChatOpenAI
 from langchain.agents import AgentExecutor, create_openai_functions_agent
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from backend.graph.state import RideMintState
-from backend.agents.base_agent import BaseAgent
-from backend.tools.sql_tool import SQLTool
-from backend.tools.analytics_tool import AnalyticsTool
+from backend.agents.base_agent import BaseAgent, get_agent_llm
 
 class OperationsAgent(BaseAgent):
     SYSTEM_PROMPT = """
@@ -21,7 +18,7 @@ Rules:
 """
     
     async def run(self, state: RideMintState) -> RideMintState:
-        llm = ChatOpenAI(model=os.getenv("OPENAI_MODEL_FULL", "gpt-4o"), temperature=0.2, api_key=os.getenv("OPENAI_API_KEY"))
+        llm = get_agent_llm(temperature=0.2)
         
         user_id = state["user_id"]
         tools = [SQLTool(user_id=user_id), AnalyticsTool(user_id=user_id)]
