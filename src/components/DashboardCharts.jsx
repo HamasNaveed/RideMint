@@ -65,12 +65,36 @@ export default function DashboardCharts({ transactions, selectedMonth, onMonthCh
     // Sort transactions chronologically to build the chart left-to-right
     const chronologicalEarnings = [...earningTx].sort((a, b) => new Date(a.rawDate) - new Date(b.rawDate));
 
+    if (chronologicalEarnings.length > 0) {
+      // Find min and max months
+      const minMonthStr = chronologicalEarnings[0].rawDate.substring(0, 7);
+      const maxMonthStr = chronologicalEarnings[chronologicalEarnings.length - 1].rawDate.substring(0, 7);
+      
+      let [minYear, minMonth] = minMonthStr.split('-').map(Number);
+      let [maxYear, maxMonth] = maxMonthStr.split('-').map(Number);
+      
+      let currentYear = minYear;
+      let currentMonth = minMonth;
+      
+      // Initialize map with all months in range
+      while (currentYear < maxYear || (currentYear === maxYear && currentMonth <= maxMonth)) {
+        const monthKey = `${currentYear}-${String(currentMonth).padStart(2, '0')}`;
+        monthlyMap[monthKey] = 0;
+        
+        currentMonth++;
+        if (currentMonth > 12) {
+          currentMonth = 1;
+          currentYear++;
+        }
+      }
+    }
+
+    // Populate actual earnings
     chronologicalEarnings.forEach(tx => {
       const monthKey = tx.rawDate.substring(0, 7);
-      if (!monthlyMap[monthKey]) {
-        monthlyMap[monthKey] = 0;
+      if (monthlyMap[monthKey] !== undefined) {
+        monthlyMap[monthKey] += Number(tx['Amount (PKR)']);
       }
-      monthlyMap[monthKey] += Number(tx['Amount (PKR)']);
     });
 
     chartData = Object.keys(monthlyMap).map(monthKey => ({
@@ -163,15 +187,15 @@ export default function DashboardCharts({ transactions, selectedMonth, onMonthCh
               width="100%" 
               style={{ minWidth: '500px', display: 'block' }}
             >
-              {/* Gradients */}
+              {/* Removed Gradients */}
               <defs>
                 <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.85" />
-                  <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.85" />
+                  <stop offset="0%" stopColor="var(--accent-primary)" />
+                  <stop offset="100%" stopColor="var(--accent-primary)" />
                 </linearGradient>
                 <linearGradient id="barHoverGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#60a5fa" stopOpacity="1" />
-                  <stop offset="100%" stopColor="#a78bfa" stopOpacity="1" />
+                  <stop offset="0%" stopColor="var(--accent-secondary)" />
+                  <stop offset="100%" stopColor="var(--accent-secondary)" />
                 </linearGradient>
               </defs>
 
@@ -308,6 +332,7 @@ export default function DashboardCharts({ transactions, selectedMonth, onMonthCh
                         fontSize={11}
                         fontWeight="bold"
                         fontFamily="system-ui"
+                        className="tabular-nums"
                       >
                         Rs {d.value.toLocaleString()}
                       </text>
@@ -329,7 +354,7 @@ export default function DashboardCharts({ transactions, selectedMonth, onMonthCh
             <div className="flex items-center gap-1">
               <TrendingUp size={14} className="text-success" />
               <span>Total Earnings in View: </span>
-              <span className="text-success font-semibold">Rs {totalChartEarnings.toLocaleString()}</span>
+              <span className="text-success font-semibold tabular-nums">Rs {totalChartEarnings.toLocaleString()}</span>
             </div>
           </div>
         </div>
