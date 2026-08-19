@@ -5,7 +5,7 @@
   --bg-dark: #0f172a;
   --bg-darker: #020617;
   --text-main: #f8fafc;
-  --text-muted: #94a3b8;
+  --text-muted: #cbd5e1; /* Increased contrast from #94a3b8 */
 
   /* Accents */
   --accent-primary: #3b82f6;
@@ -14,11 +14,12 @@
   --danger: #ef4444;
   --warning: #f59e0b;
 
-  /* Gradients */
+  /* Gradients & Backgrounds */
   --gradient-bg: linear-gradient(135deg, var(--bg-dark), var(--bg-darker));
-  --gradient-primary: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-  --gradient-success: linear-gradient(135deg, var(--success), #059669);
-  --gradient-danger: linear-gradient(135deg, #f87171, var(--danger));
+  /* Reduce decorative gradient, use flatter accent */
+  --gradient-primary: var(--accent-primary);
+  --gradient-success: var(--success);
+  --gradient-danger: var(--danger);
 
   /* Glassmorphism */
   --glass-bg: rgba(255, 255, 255, 0.05);
@@ -107,9 +108,10 @@ h4 {
   font-weight: 500;
   font-family: 'Inter', sans-serif;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   border: none;
-  font-size: 1rem;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
 }
 
 .btn:active {
@@ -172,20 +174,43 @@ h4 {
   border-radius: var(--radius-md);
   color: var(--text-main);
   font-family: 'Inter', sans-serif;
-  font-size: 1rem;
-  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
 }
 
 .form-input:focus,
 .form-select:focus {
   outline: none;
   border-color: var(--accent-primary);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Custom Select Styling */
+.form-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2394a3b8%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.2rem;
+  padding-right: 2.5rem;
 }
 
 .form-select option {
   background: var(--bg-dark);
   color: var(--text-main);
+}
+
+/* Custom Date Input Styling */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: 0.6;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
 }
 
 /* Tables */
@@ -241,15 +266,20 @@ h4 {
 }
 
 .badge-success {
-  background: rgba(16, 185, 129, 0.1);
+  background: rgba(16, 185, 129, 0.15);
   color: var(--success);
-  border: 1px solid rgba(16, 185, 129, 0.2);
+  border: 1px solid rgba(16, 185, 129, 0.3);
 }
 
 .badge-danger {
-  background: rgba(239, 68, 68, 0.1);
+  background: rgba(239, 68, 68, 0.15);
   color: var(--danger);
-  border: 1px solid rgba(239, 68, 68, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* Tabular Numerals for Currency */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
 }
 
 /* Animations */
