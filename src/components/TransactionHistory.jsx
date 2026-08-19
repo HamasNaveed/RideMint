@@ -44,7 +44,7 @@ export default function TransactionHistory({ transactions }) {
                                         </span>
                                     </td>
                                     <td className="text-muted">{tx.Description}</td>
-                                    <td className={`text-right font-medium ${isEarning ? 'text-success' : 'text-danger'}`}>
+                                    <td className={`text-right font-medium tabular-nums ${isEarning ? 'text-success' : 'text-danger'}`}>
                                         {isEarning ? '+' : '-'} Rs {amount.toLocaleString()}
                                     </td>
                                 </tr>
