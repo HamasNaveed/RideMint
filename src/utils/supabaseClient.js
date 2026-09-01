@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'http://localhost:54321';
-const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IlN1cGFiYXNlLVRyYWNrZXIiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTYyNjQ0MTYwMCwiZXhwIjoyMDQyMDc2ODAwfQ.placeholder';
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://qsnhkdtptxsgwgmnacrx.supabase.co';
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFzbmhrZHRwdHhzZ3dnbW5hY3J4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI0NzYyMTYsImV4cCI6MjA5ODA1MjIxNn0.9T-y2m3m3a_6sdiHPZ5Rn7dV2ha_uc4Gox_ixZeH9lg';
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 export const HAMAS_USER_ID = '9f69bafe-f2dd-48a7-a7a9-b56f00973450';
@@ -116,7 +116,7 @@ export const fetchTransactionsFromSupabase = async () => {
         return transactions;
     } catch (e) {
         console.error("Supabase fetch failed:", e);
-        throw new Error("Supabase is not running or unreachable. Please start your local Supabase database or ensure connection settings are correct.");
+        throw new Error("Database service is unreachable. Please check your network connection or try again.");
     }
 };
 
@@ -192,7 +192,7 @@ export const addTransactionToSupabase = async (transaction) => {
         }
     } catch (e) {
         console.error("Supabase insert failed:", e);
-        throw new Error("Supabase insert failed. Please ensure your local database is running and connected.");
+        throw new Error("Unable to save transaction. Please check your network connection.");
     }
 };
 
