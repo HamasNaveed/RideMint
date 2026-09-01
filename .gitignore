@@ -26,10 +26,18 @@ dist-ssr
 # User CSV Data
 /Indrive - Sheet1.csv
 
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+
 # Env files
 .env
 .env.local
 .env.*
 !.env.example
+!.env.production
 
 
