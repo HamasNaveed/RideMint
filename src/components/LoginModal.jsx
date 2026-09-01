@@ -13,6 +13,15 @@ export default function LoginModal({ onLoginSuccess, onClose }) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const formatErrorMessage = (msg, fallback) => {
+    if (!msg) return fallback;
+    const lower = String(msg).toLowerCase();
+    if (lower.includes('failed to fetch') || lower.includes('fetch failed') || lower.includes('networkerror')) {
+      return 'Unable to reach the server. Please check your internet connection or try again later.';
+    }
+    return msg;
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!email || !password) {
@@ -24,7 +33,7 @@ export default function LoginModal({ onLoginSuccess, onClose }) {
     try {
       const { data, error: authError } = await signInUser(email, password);
       if (authError) {
-        setError(authError.message);
+        setError(formatErrorMessage(authError.message, 'Failed to sign in. Please verify your credentials.'));
       } else {
         // Success
         if (onLoginSuccess) {
@@ -32,7 +41,7 @@ export default function LoginModal({ onLoginSuccess, onClose }) {
         }
       }
     } catch (err) {
-      setError(err.message || 'An unexpected error occurred during sign in.');
+      setError(formatErrorMessage(err.message, 'An unexpected error occurred during sign in.'));
     } finally {
       setLoading(false);
     }
@@ -67,7 +76,7 @@ export default function LoginModal({ onLoginSuccess, onClose }) {
       // Call database signup which uses bcrypt (irreversible hashing)
       const { data, error: authError } = await signUpUser(email, password);
       if (authError) {
-        setError(authError.message);
+        setError(formatErrorMessage(authError.message, 'Failed to create account.'));
       } else {
         setSuccess('Registration successful! Please check your email for confirmation or sign in.');
         setEmail('');
@@ -75,7 +84,7 @@ export default function LoginModal({ onLoginSuccess, onClose }) {
         setConfirmPassword('');
       }
     } catch (err) {
-      setError(err.message || 'An unexpected error occurred during sign up.');
+      setError(formatErrorMessage(err.message, 'An unexpected error occurred during sign up.'));
     } finally {
       setLoading(false);
     }
@@ -95,7 +104,7 @@ export default function LoginModal({ onLoginSuccess, onClose }) {
       // 1. Check if email/gmail exists or not
       const exists = await checkEmailExists(email);
       if (!exists) {
-        setError("Gmail doesn't exist");
+        setError("Account with this email does not exist.");
         setLoading(false);
         return;
       }
@@ -104,7 +113,7 @@ export default function LoginModal({ onLoginSuccess, onClose }) {
       setSuccess("Email exists! (Reset email sending skipped as requested)");
       setEmail('');
     } catch (err) {
-      setError(err.message || 'An unexpected error occurred.');
+      setError(formatErrorMessage(err.message, 'An unexpected error occurred.'));
     } finally {
       setLoading(false);
     }
