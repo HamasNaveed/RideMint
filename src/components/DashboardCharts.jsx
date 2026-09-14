@@ -141,17 +141,17 @@ export default function DashboardCharts({ transactions, selectedMonth, onMonthCh
   };
 
   return (
-    <div className="glass-panel mb-6 animate-fade-in" style={{ animationDelay: '0.35s' }}>
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 pb-4 border-b border-white border-opacity-10">
+    <div className="p-space-lg rounded-xl bg-surface-container-low border border-hairline mb-space-xl animate-fade-in" style={{ animationDelay: '0.35s' }}>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-space-lg pb-4 border-b border-hairline">
         <div className="flex items-center gap-2">
-          <BarChart2 className="text-accent-primary" size={24} />
+          <BarChart2 className="text-primary" size={20} />
           <div>
-            <h3 className="text-lg font-semibold text-white">
-              {isDailyMode ? `Daily Earnings - ${getMonthName(selectedMonth)}` : 'Monthly Earnings Overview'}
+            <h3 className="font-headline-md text-headline-md text-on-surface">
+              {isDailyMode ? `Daily Earnings — ${getMonthName(selectedMonth)}` : 'Cashflow Dynamics'}
             </h3>
-            <p className="text-muted text-xs">
-              {isDailyMode 
-                ? 'Showing daily performance for selected month' 
+            <p className="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+              {isDailyMode
+                ? 'Showing daily performance for selected month'
                 : 'Showing total earnings aggregated by month'}
             </p>
           </div>
@@ -159,9 +159,9 @@ export default function DashboardCharts({ transactions, selectedMonth, onMonthCh
 
         {/* Dropdown filter */}
         <div className="flex items-center gap-2 w-full sm:w-auto">
-          <Calendar size={16} className="text-muted" />
-          <select 
-            value={selectedMonth} 
+          <Calendar size={16} className="text-on-surface-variant" />
+          <select
+            value={selectedMonth}
             onChange={(e) => onMonthChange(e.target.value)}
             className="form-select text-sm py-1.5 px-3"
             style={{ width: 'auto', minWidth: '160px' }}
@@ -300,16 +300,16 @@ export default function DashboardCharts({ transactions, selectedMonth, onMonthCh
 
                   return (
                     <g style={{ pointerEvents: 'none' }} className="animate-fade-in">
-                      <circle cx={barCenter} cy={barTopY} r={4} fill="#fff" stroke="#3b82f6" strokeWidth={2} />
-                      
+                      <circle cx={barCenter} cy={barTopY} r={4} fill="#F1F3F5" stroke="var(--accent-primary)" strokeWidth={2} />
+
                       <rect
                         x={tooltipX - tooltipWidth / 2}
                         y={tooltipY - 50}
                         width={tooltipWidth}
                         height={42}
                         rx={6}
-                        fill="rgba(15, 23, 42, 0.98)"
-                        stroke="rgba(255, 255, 255, 0.15)"
+                        fill="#1C2127"
+                        stroke="#2A313C"
                         strokeWidth={1}
                       />
                       
@@ -328,7 +328,7 @@ export default function DashboardCharts({ transactions, selectedMonth, onMonthCh
                         x={tooltipX}
                         y={tooltipY - 22}
                         textAnchor="middle"
-                        fill="#fff"
+                        fill="#F1F3F5"
                         fontSize={11}
                         fontWeight="bold"
                         fontFamily="system-ui"
@@ -344,17 +344,17 @@ export default function DashboardCharts({ transactions, selectedMonth, onMonthCh
           </div>
           
           {/* Chart metrics footer */}
-          <div className="flex justify-between items-center mt-3 text-xs text-muted px-2">
+          <div className="flex justify-between items-center mt-3 font-body-sm text-body-sm text-on-surface-variant px-2">
             <div>
               <span>Chart Range: </span>
-              <span className="text-white font-medium">
+              <span className="text-on-surface font-medium">
                 {isDailyMode ? `${chartData.length} Days` : `${chartData.length} Months`}
               </span>
             </div>
             <div className="flex items-center gap-1">
-              <TrendingUp size={14} className="text-success" />
+              <TrendingUp size={14} className="text-secondary" />
               <span>Total Earnings in View: </span>
-              <span className="text-success font-semibold tabular-nums">Rs {totalChartEarnings.toLocaleString()}</span>
+              <span className="font-mono text-secondary font-semibold">Rs {totalChartEarnings.toLocaleString()}</span>
             </div>
           </div>
         </div>
