@@ -266,7 +266,7 @@ function App() {
           )}
 
           {currentPage === 'logEntry' && (
-            <TransactionForm onAdd={handleAddTransaction} loading={loading} />
+            <TransactionForm onAdd={handleAddTransaction} loading={loading} transactions={transactions} />
           )}
 
           {currentPage === 'analytics' && (
