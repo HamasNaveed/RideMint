@@ -71,10 +71,15 @@ export default function Analytics({ transactions }) {
 
   const toneClass = { secondary: 'text-secondary', tertiary: 'text-tertiary', primary: 'text-primary', 'on-surface': 'text-on-surface' };
 
-  // Donut geometry
+  // Donut geometry — precompute each segment's dash length/offset (no mutation during render)
   const radius = 60;
   const circumference = 2 * Math.PI * radius;
-  let cumulative = 0;
+  const donutSegments = incomeBySource.reduce((acc, src) => {
+    const dash = (src.amount / earnings) * circumference;
+    const cumulativeBefore = acc.length > 0 ? acc[acc.length - 1].cumulative : 0;
+    acc.push({ ...src, dash, offset: circumference - cumulativeBefore, cumulative: cumulativeBefore + dash });
+    return acc;
+  }, []);
 
   return (
     <div className="flex flex-col gap-space-xl animate-fade-in">
@@ -171,26 +176,20 @@ export default function Analytics({ transactions }) {
             <>
               <svg viewBox="0 0 160 160" width="160" height="160" className="mb-space-lg">
                 <circle cx="80" cy="80" r={radius} fill="none" stroke="#181C20" strokeWidth="20" />
-                {incomeBySource.map((src, idx) => {
-                  const pct = src.amount / earnings;
-                  const dash = pct * circumference;
-                  const offset = circumference - cumulative;
-                  cumulative += dash;
-                  return (
-                    <circle
-                      key={src.name}
-                      cx="80"
-                      cy="80"
-                      r={radius}
-                      fill="none"
-                      stroke={SEGMENT_COLORS[idx % SEGMENT_COLORS.length]}
-                      strokeWidth="20"
-                      strokeDasharray={`${dash} ${circumference - dash}`}
-                      strokeDashoffset={offset}
-                      transform="rotate(-90 80 80)"
-                    />
-                  );
-                })}
+                {donutSegments.map((src, idx) => (
+                  <circle
+                    key={src.name}
+                    cx="80"
+                    cy="80"
+                    r={radius}
+                    fill="none"
+                    stroke={SEGMENT_COLORS[idx % SEGMENT_COLORS.length]}
+                    strokeWidth="20"
+                    strokeDasharray={`${src.dash} ${circumference - src.dash}`}
+                    strokeDashoffset={src.offset}
+                    transform="rotate(-90 80 80)"
+                  />
+                ))}
                 <text x="80" y="76" textAnchor="middle" className="font-mono" fontSize="18" fill="#F1F3F5">
                   Rs {earnings.toLocaleString()}
                 </text>
