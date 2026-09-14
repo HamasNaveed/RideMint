@@ -1,36 +1,37 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  /* Core Colors */
-  --bg-dark: #0f172a;
-  --bg-darker: #020617;
-  --text-main: #f8fafc;
-  --text-muted: #cbd5e1; /* Increased contrast from #94a3b8 */
+  /* Core Colors — Editorial Obsidian Ledger palette */
+  --bg-dark: #0b0d0f;
+  --bg-darker: #0b0d0f;
+  --text-main: #f1f3f5;
+  --text-muted: #94a0b8;
 
   /* Accents */
-  --accent-primary: #3b82f6;
-  --accent-secondary: #8b5cf6;
+  --accent-primary: #d97706;
+  --accent-secondary: #b45309;
   --success: #10b981;
-  --danger: #ef4444;
-  --warning: #f59e0b;
+  --danger: #f43f5e;
+  --warning: #d97706;
 
   /* Gradients & Backgrounds */
-  --gradient-bg: linear-gradient(135deg, var(--bg-dark), var(--bg-darker));
-  /* Reduce decorative gradient, use flatter accent */
+  --gradient-bg: #0b0d0f;
   --gradient-primary: var(--accent-primary);
   --gradient-success: var(--success);
   --gradient-danger: var(--danger);
 
-  /* Glassmorphism */
-  --glass-bg: rgba(255, 255, 255, 0.05);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  /* Card / panel surfaces */
+  --glass-bg: #121518;
+  --glass-border: #232830;
+  --glass-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
 
   /* Spacing & Radii */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
 }
 
 * {
@@ -40,7 +41,7 @@
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Geist', sans-serif;
   background: var(--gradient-bg);
   color: var(--text-main);
   min-height: 100vh;
@@ -120,23 +121,24 @@ h4 {
 
 .btn-primary {
   background: var(--gradient-primary);
-  color: white;
-  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+  color: #0b0d0f;
+  box-shadow: 0 4px 15px rgba(217, 119, 6, 0.3);
 }
 
 .btn-primary:hover {
-  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+  background: var(--accent-secondary);
+  box-shadow: 0 6px 20px rgba(217, 119, 6, 0.4);
   transform: translateY(-1px);
 }
 
 .btn-danger {
   background: var(--gradient-danger);
   color: white;
-  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+  box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3);
 }
 
 .btn-danger:hover {
-  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
+  box-shadow: 0 6px 20px rgba(244, 63, 94, 0.5);
   transform: translateY(-1px);
 }
 
