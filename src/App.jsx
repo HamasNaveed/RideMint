@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Car, X, AlertCircle, CheckCircle } from 'lucide-react';
+import { X, AlertCircle, CheckCircle } from 'lucide-react';
 import Dashboard from './components/Dashboard';
 import TransactionForm from './components/TransactionForm';
 import TransactionHistory from './components/TransactionHistory';
@@ -7,7 +7,9 @@ import { fetchTransactionsFromSupabase, addTransactionToSupabase, supabase, fetc
 import LoginModal from './components/LoginModal';
 import ProfilePage from './components/ProfilePage';
 import DashboardCharts from './components/DashboardCharts';
+import Analytics from './components/Analytics';
 import AICopilot from './components/ai/AICopilot';
+import Header from './components/layout/Header';
 
 const MOCK_INITIAL_TRANSACTIONS = [
   {
@@ -207,65 +209,13 @@ function App() {
 
   return (
     <>
-      <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 animate-fade-in">
-        <div className="flex items-center gap-3">
-          <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-2 rounded-xl shadow-lg border border-white border-opacity-20" style={{ background: 'var(--gradient-primary)' }}>
-            <Car size={28} className="text-white" />
-          </div>
-          <div>
-            <h1 className="text-2xl text-gradient">Indrive Tracker</h1>
-            <p className="text-muted text-sm tracking-wide uppercase">
-              {session ? `Logged in as: ${session.user.user_metadata?.full_name || session.user.email}` : 'Guest Sandbox Mode'}
-            </p>
-          </div>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-3 w-full md:w-auto justify-between md:justify-end">
-          <div className="flex gap-2">
-            <button 
-              onClick={() => setCurrentPage('dashboard')}
-              className={`btn ${currentPage === 'dashboard' ? 'btn-primary' : 'btn-outline'}`}
-              style={{ padding: '0.5rem 1rem', fontSize: '0.875rem' }}
-            >
-              Dashboard
-            </button>
-            <button 
-              onClick={() => setCurrentPage('profile')}
-              className={`btn ${currentPage === 'profile' ? 'btn-primary' : 'btn-outline'}`}
-              style={{ padding: '0.5rem 1rem', fontSize: '0.875rem' }}
-            >
-              Profile
-            </button>
-            <button 
-              onClick={() => setCurrentPage('copilot')}
-              className={`btn ${currentPage === 'copilot' ? 'btn-primary' : 'btn-outline'}`}
-              style={{ padding: '0.5rem 1rem', fontSize: '0.875rem' }}
-            >
-              🤖 AI Copilot
-            </button>
-          </div>
-
-          <div>
-            {session ? (
-              <button 
-                onClick={() => supabase.auth.signOut()} 
-                className="btn btn-outline"
-                style={{ padding: '0.5rem 1rem', fontSize: '0.875rem' }}
-              >
-                Sign Out
-              </button>
-            ) : (
-              <button 
-                onClick={() => setShowLoginModal(true)} 
-                className="btn btn-primary"
-                style={{ padding: '0.5rem 1.25rem', fontSize: '0.875rem' }}
-              >
-                Sign In
-              </button>
-            )}
-          </div>
-        </div>
-      </header>
+      <Header
+        currentPage={currentPage}
+        onNavigate={setCurrentPage}
+        session={session}
+        onSignOut={() => supabase.auth.signOut()}
+        onTriggerLogin={() => setShowLoginModal(true)}
+      />
 
       {!session && (
         <div className="glass-panel mb-6 animate-fade-in flex flex-col md:flex-row justify-between items-center gap-4" style={{ borderColor: 'rgba(59, 130, 246, 0.3)', padding: '1rem 1.5rem' }}>
@@ -293,25 +243,35 @@ function App() {
         </div>
       )}
 
-      {currentPage === 'dashboard' && (
+      {(currentPage === 'dashboard' || currentPage === 'transactions' || currentPage === 'logEntry' || currentPage === 'analytics') && loading && transactions.length === 0 ? (
+        <div className="text-center py-12 text-muted animate-fade-in">
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary mb-2" style={{ borderColor: 'var(--accent-primary)' }}></div>
+          <p>Loading your data...</p>
+        </div>
+      ) : !error && (
         <>
-          {loading && transactions.length === 0 ? (
-            <div className="text-center py-12 text-muted animate-fade-in">
-              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary mb-2" style={{ borderColor: 'var(--accent-primary)' }}></div>
-              <p>Loading your data...</p>
-            </div>
-          ) : !error ? (
+          {currentPage === 'dashboard' && (
             <>
               <Dashboard transactions={filteredTransactions} />
-              <DashboardCharts 
-                transactions={transactions} 
-                selectedMonth={selectedMonth} 
-                onMonthChange={setSelectedMonth} 
+              <DashboardCharts
+                transactions={transactions}
+                selectedMonth={selectedMonth}
+                onMonthChange={setSelectedMonth}
               />
-              <TransactionForm onAdd={handleAddTransaction} loading={loading} />
-              <TransactionHistory transactions={filteredTransactions} />
             </>
-          ) : null}
+          )}
+
+          {currentPage === 'transactions' && (
+            <TransactionHistory transactions={filteredTransactions} />
+          )}
+
+          {currentPage === 'logEntry' && (
+            <TransactionForm onAdd={handleAddTransaction} loading={loading} />
+          )}
+
+          {currentPage === 'analytics' && (
+            <Analytics transactions={transactions} />
+          )}
         </>
       )}
 
