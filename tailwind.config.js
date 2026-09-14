@@ -44,11 +44,9 @@ export default {
         'label-sans': ['12px', { lineHeight: '16px', fontWeight: '500' }],
       },
       borderRadius: {
-        sm: '0.25rem',
-        DEFAULT: '0.5rem',
-        md: '0.5rem',
-        lg: '0.75rem',
-        xl: '1rem',
+        DEFAULT: '0.25rem',
+        lg: '0.5rem',
+        xl: '0.75rem',
         full: '9999px',
       },
       spacing: {
