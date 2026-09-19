@@ -26,7 +26,7 @@ export default function Header({ currentPage, onNavigate, session, onSignOut, on
                 onClick={() => onNavigate(item.key)}
                 className={`bg-transparent px-space-md py-1.5 rounded-lg font-headline-sm text-headline-sm transition-colors whitespace-nowrap ${
                   currentPage === item.key
-                    ? 'bg-primary text-on-primary'
+                    ? 'bg-surface-container-high text-on-surface'
                     : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high'
                 }`}
               >
@@ -64,7 +64,7 @@ export default function Header({ currentPage, onNavigate, session, onSignOut, on
             onClick={() => onNavigate(item.key)}
             className={`bg-transparent px-3 py-1.5 rounded-lg font-label-sans text-label-sans whitespace-nowrap transition-colors ${
               currentPage === item.key
-                ? 'bg-primary text-on-primary'
+                ? 'bg-surface-container-high text-on-surface'
                 : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high'
             }`}
           >
