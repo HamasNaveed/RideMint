@@ -24,10 +24,10 @@ export default function Header({ currentPage, onNavigate, session, onSignOut, on
                 key={item.key}
                 type="button"
                 onClick={() => onNavigate(item.key)}
-                className={`px-space-md py-1.5 rounded-lg font-headline-sm text-headline-sm transition-colors whitespace-nowrap ${
+                className={`bg-transparent px-space-md py-1.5 rounded-lg font-headline-sm text-headline-sm transition-colors whitespace-nowrap ${
                   currentPage === item.key
-                    ? 'bg-surface-container-high text-on-surface'
-                    : 'text-on-surface-variant hover:text-on-surface'
+                    ? 'bg-primary text-on-primary'
+                    : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high'
                 }`}
               >
                 {item.label}
@@ -62,10 +62,10 @@ export default function Header({ currentPage, onNavigate, session, onSignOut, on
             key={item.key}
             type="button"
             onClick={() => onNavigate(item.key)}
-            className={`px-3 py-1.5 rounded-lg font-label-sans text-label-sans whitespace-nowrap transition-colors ${
+            className={`bg-transparent px-3 py-1.5 rounded-lg font-label-sans text-label-sans whitespace-nowrap transition-colors ${
               currentPage === item.key
-                ? 'bg-surface-container-high text-on-surface'
-                : 'text-on-surface-variant hover:text-on-surface'
+                ? 'bg-primary text-on-primary'
+                : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high'
             }`}
           >
             {item.label}
