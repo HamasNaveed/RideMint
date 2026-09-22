@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-error-container": "#ffdad6", "primary-fixed-dim": "#ffb77d", "on-secondary-fixed": "#002113", "tertiary-fixed": "#ffdadb", "surface": "#111417", "primary-fixed": "#ffdcc3", "error-container": "#93000a", "primary": "#ffb77d", "secondary-fixed": "#6ffbbe", "on-tertiary-fixed-variant": "#92002a", "background": "#111417", "surface-tint": "#ffb77d", "on-secondary-fixed-variant": "#005236", "surface-container-lowest": "#0b0e11", "surface-variant": "#323538", "surface-container": "#1d2023", "on-surface-variant": "#dbc2b0", "on-background": "#e1e2e7", "outline-variant": "#554336", "surface-container-highest": "#323538", "on-error": "#690005", "error": "#ffb4ab", "on-tertiary-fixed": "#40000d", "primary-container": "#d97707", "on-tertiary": "#67001b", "on-primary-fixed-variant": "#6e3900", "on-primary-container": "#432100", "inverse-surface": "#e1e2e7", "on-secondary": "#003824", "tertiary": "#ffb2b7", "tertiary-container": "#ff516a", "surface-bright": "#37393d", "on-surface": "#e1e2e7", "outline": "#a38c7c", "on-primary-fixed": "#2f1500", "surface-container-low": "#191c1f", "surface-container-high": "#272a2d", "surface-dim": "#111417", "secondary-container": "#00a572", "secondary-fixed-dim": "#4edea3", "inverse-on-surface": "#2e3134", "on-secondary-container": "#00311f", "on-tertiary-container": "#5b0017", "tertiary-fixed-dim": "#ffb2b7", "inverse-primary": "#904d00", "secondary": "#4edea3", "on-primary": "#4d2600" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-xl": "2.5rem", "gutter-desktop": "1.5rem", "space-sm": "0.5rem", "space-lg": "1.5rem", "margin-tablet": "2rem", "space-md": "1rem", "gutter": "1rem", "margin": "1rem", "margin-desktop": "3rem", "space-xs": "0.25rem" }, "fontFamily": { "stat-md": [ "JetBrains Mono" ], "body-sm": [ "Geist" ], "display-lg": [ "Geist" ], "stat-lg-mobile": [ "JetBrains Mono" ], "label-mono": [ "JetBrains Mono" ], "stat-lg": [ "JetBrains Mono" ], "display-lg-mobile": [ "Geist" ], "headline-md": [ "Geist" ], "label-sans": [ "Geist" ], "body-md": [ "Geist" ], "headline-sm": [ "Geist" ] }, "fontSize": { "stat-md": [ "15px", { "lineHeight": "20px", "fontWeight": "500" } ], "body-sm": [ "13px", { "lineHeight": "18px", "fontWeight": "400" } ], "display-lg": [ "32px", { "lineHeight": "38px", "fontWeight": "600" } ], "stat-lg-mobile": [ "22px", { "lineHeight": "26px", "fontWeight": "500" } ], "label-mono": [ "11px", { "lineHeight": "14px", "fontWeight": "500" } ], "stat-lg": [ "28px", { "lineHeight": "32px", "fontWeight": "500" } ], "display-lg-mobile": [ "26px", { "lineHeight": "32px", "fontWeight": "600" } ], "headline-md": [ "20px", { "lineHeight": "26px", "fontWeight": "600" } ], "label-sans": [ "12px", { "lineHeight": "16px", "fontWeight": "500" } ], "body-md": [ "14px", { "lineHeight": "20px", "fontWeight": "400" } ], "headline-sm": [ "16px", { "lineHeight": "22px", "fontWeight": "500" } ] } } } };</script></head><body class="bg-surface-container-lowest font-body-md text-body-md text-on-surface antialiased selection:bg-primary selection:text-on-primary min-h-screen"><header class="fixed top-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 max-w-[1240px] mx-auto px-margin md:px-margin-desktop flex items-center justify-between gap-gutter"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-sm"><div class="w-7 h-7 rounded-lg bg-surface-container-high flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[18px]">account_balance_wallet</span></div><span class="font-headline-sm text-headline-sm tracking-tight text-on-surface">Ledger</span></div><nav class="hidden md:flex items-center gap-space-xs p-space-xs rounded-xl bg-surface-container-low" data-active-classes="bg-surface-container-high text-on-surface font-headline-sm text-headline-sm rounded-lg"><a class="px-space-md py-1.5 rounded-lg font-headline-sm text-headline-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="overview" href="#">Overview</a><a class="px-space-md py-1.5 rounded-lg font-headline-sm text-headline-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="transactions" href="#">Transactions</a><a class="px-space-md py-1.5 rounded-lg font-headline-sm text-headline-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="log-entry" href="#">Log Entry</a><a aria-current="page" class="px-space-md py-1.5 transition-colors bg-surface-container-high text-on-surface font-headline-sm text-headline-sm rounded-lg" data-path="analytics" href="#">Analytics</a><a class="px-space-md py-1.5 rounded-lg font-headline-sm text-headline-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="profile" href="#">Profile</a></nav></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-1.5 px-space-sm py-1 rounded-full bg-surface-container-low"><span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span><span class="font-label-mono text-label-mono uppercase tracking-wider text-secondary">Synced</span></div><div class="inline-flex p-0.5 rounded-lg bg-surface-container-low"><button class="px-2 py-1 rounded font-label-mono text-label-mono bg-surface-container-high text-on-surface transition-colors" type="button">PKR</button><button class="px-2 py-1 rounded font-label-mono text-label-mono text-on-surface-variant hover:text-on-surface transition-colors" type="button">USD</button></div><div class="hidden sm:flex flex-col items-end pl-space-xs"><span class="font-body-sm text-body-sm text-on-surface leading-none">Hamas</span><span class="font-label-mono text-label-mono text-on-surface-variant tracking-tight mt-0.5">YBR 125</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 bg-surface-container-lowest"><div class="max-w-[1240px] mx-auto px-margin md:px-margin-desktop py-space-xl"><div class="flex flex-col w-full gap-space-xl">
+<!-- Section Title & Global Control Strip -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md pb-space-xs">
+<div>
+<div class="flex items-center gap-space-xs mb-1">
+<span class="font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant">Telemetry • Economics</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="font-label-mono text-label-mono text-secondary">Active Audit</span>
+</div>
+<h1 class="font-display-lg text-display-lg text-on-surface tracking-tight">Financial Intelligence &amp; Breakdown</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Operational yield, unit economics, and motor fuel allocation for Yamaha YBR 125.</p>
+</div>
+<!-- Timeframe Interval Toggle -->
+<div class="flex items-center self-start md:self-auto gap-space-xs p-1 rounded-lg bg-surface-container-low shadow-sm">
+<button class="cadence-btn px-space-md py-1.5 rounded font-label-mono text-label-mono transition-all bg-surface-container-high text-on-surface" id="btn-monthly" onclick="switchCadence('monthly')" type="button">
+        Monthly
+      </button>
+<button class="cadence-btn px-space-md py-1.5 rounded font-label-mono text-label-mono transition-all text-on-surface-variant hover:text-on-surface" id="btn-quarterly" onclick="switchCadence('quarterly')" type="button">
+        Quarterly
+      </button>
+</div>
+</div>
+<!-- Row 1: Key Health Indicators (4 Stat Cards) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter-desktop">
+<!-- Stat 1: Profit Margin Ratio -->
+<div class="relative overflow-hidden rounded-xl bg-surface-container-low p-space-lg shadow-sm flex flex-col justify-between">
+<div class="absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-secondary/5 blur-2xl pointer-events-none"></div>
+<div>
+<div class="flex items-center justify-between">
+<span class="font-label-mono text-label-mono uppercase tracking-wider text-on-surface-variant">Profit Margin Ratio</span>
+<span class="material-symbols-outlined text-secondary text-[18px]">query_stats</span>
+</div>
+<div class="mt-space-md flex items-baseline gap-2">
+<span class="font-stat-lg text-stat-lg text-on-surface" id="stat-margin-val">10.0%</span>
+<span class="font-label-mono text-label-mono text-secondary px-1.5 py-0.5 rounded bg-surface-container-high">+1.4% MoM</span>
+</div>
+</div>
+<div class="mt-space-lg pt-space-sm bg-surface-container/30 rounded-lg p-space-sm">
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="font-label-mono text-label-mono">Net Yield</span>
+<span class="font-label-mono text-label-mono text-on-surface" id="stat-net-amt">Rs 2,771</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant mt-1">
+<span class="font-label-mono text-label-mono">Gross Volume</span>
+<span class="font-label-mono text-label-mono text-on-surface" id="stat-gross-amt">Rs 27,699</span>
+</div>
+</div>
+</div>
+<!-- Stat 2: Fuel Expense Ratio -->
+<div class="relative overflow-hidden rounded-xl bg-surface-container-low p-space-lg shadow-sm flex flex-col justify-between">
+<div class="absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-primary-container/10 blur-2xl pointer-events-none"></div>
+<div>
+<div class="flex items-center justify-between">
+<span class="font-label-mono text-label-mono uppercase tracking-wider text-on-surface-variant">Fuel Outflow Ratio</span>
+<span class="material-symbols-outlined text-primary text-[18px]">local_gas_station</span>
+</div>
+<div class="mt-space-md flex items-baseline gap-2">
+<span class="font-stat-lg text-stat-lg text-primary" id="stat-fuel-ratio">73.0%</span>
+<span class="font-label-mono text-label-mono text-primary-fixed-dim px-1.5 py-0.5 rounded bg-surface-container-high">Primary Outflow</span>
+</div>
+</div>
+<div class="mt-space-lg pt-space-sm bg-surface-container/30 rounded-lg p-space-sm">
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="font-label-mono text-label-mono">Total Expense</span>
+<span class="font-label-mono text-label-mono text-on-surface" id="stat-total-exp">Rs 24,928</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant mt-1">
+<span class="font-label-mono text-label-mono">Fuel Surcharge</span>
+<span class="font-label-mono text-label-mono text-on-surface" id="stat-fuel-amt">Rs 18,200</span>
+</div>
+</div>
+</div>
+<!-- Stat 3: Average Daily Earnings -->
+<div class="relative overflow-hidden rounded-xl bg-surface-container-low p-space-lg shadow-sm flex flex-col justify-between">
+<div class="absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-surface-variant/30 blur-2xl pointer-events-none"></div>
+<div>
+<div class="flex items-center justify-between">
+<span class="font-label-mono text-label-mono uppercase tracking-wider text-on-surface-variant">Avg Earning / Day</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">calendar_today</span>
+</div>
+<div class="mt-space-md flex items-baseline gap-2">
+<span class="font-stat-lg text-stat-lg text-on-surface" id="stat-day-gross">Rs 923</span>
+<span class="font-label-mono text-label-mono text-on-surface-variant">gross</span>
+</div>
+</div>
+<div class="mt-space-lg pt-space-sm bg-surface-container/30 rounded-lg p-space-sm">
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="font-label-mono text-label-mono">Net Retained</span>
+<span class="font-label-mono text-label-mono text-secondary" id="stat-day-net">Rs 92 / day</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant mt-1">
+<span class="font-label-mono text-label-mono">Active Shift Duty</span>
+<span class="font-label-mono text-label-mono text-on-surface">30 Days</span>
+</div>
+</div>
+</div>
+<!-- Stat 4: Cost Per Kilometer -->
+<div class="relative overflow-hidden rounded-xl bg-surface-container-low p-space-lg shadow-sm flex flex-col justify-between">
+<div class="absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-tertiary/5 blur-2xl pointer-events-none"></div>
+<div>
+<div class="flex items-center justify-between">
+<span class="font-label-mono text-label-mono uppercase tracking-wider text-on-surface-variant">Cost Per Kilometer</span>
+<span class="material-symbols-outlined text-outline text-[18px]">speed</span>
+</div>
+<div class="mt-space-md flex items-baseline gap-2">
+<span class="font-stat-lg text-stat-lg text-on-surface" id="stat-cpk">Rs 6.78</span>
+<span class="font-label-mono text-label-mono text-on-surface-variant">/ km</span>
+</div>
+</div>
+<div class="mt-space-lg pt-space-sm bg-surface-container/30 rounded-lg p-space-sm">
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="font-label-mono text-label-mono">Net Efficiency</span>
+<span class="font-label-mono text-label-mono text-secondary">43.2 km / L</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant mt-1">
+<span class="font-label-mono text-label-mono">Target Threshold</span>
+<span class="font-label-mono text-label-mono text-on-surface">Rs 7.10 Max</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Row 2: Mid Breakdown Charts (Asymmetric Split 7:5) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter-desktop">
+<!-- Left Panel: Expense Category Spectrum -->
+<div class="lg:col-span-7 rounded-xl bg-surface-container-low p-space-lg shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-space-sm">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Expense by Category</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Hierarchical decomposition of operational expenditure</p>
+</div>
+<div class="flex items-center gap-1.5 px-space-sm py-1 rounded bg-surface-container">
+<span class="font-label-mono text-label-mono text-on-surface-variant">Total:</span>
+<span class="font-label-mono text-label-mono text-on-surface" id="chart-exp-total">Rs 24,928</span>
+</div>
+</div>
+<!-- Cumulative Bar Visual Strip -->
+<div class="w-full h-3 rounded-full overflow-hidden flex mt-space-md bg-surface-container-high">
+<div class="h-full bg-primary transition-all duration-500" style="width: 73%" title="Fuel &amp; Petrol (73%)"></div>
+<div class="h-full bg-secondary transition-all duration-500" style="width: 18%" title="Bike Maintenance (18%)"></div>
+<div class="h-full bg-primary-container transition-all duration-500" style="width: 6%" title="Mobile Data (6%)"></div>
+<div class="h-full bg-outline transition-all duration-500" style="width: 3%" title="Tolls (3%)"></div>
+</div>
+<!-- Itemized Category Rows -->
+<div class="mt-space-lg flex flex-col gap-space-md">
+<!-- Item 1 -->
+<div class="group p-space-sm rounded-lg hover:bg-surface-container-high/40 transition-colors">
+<div class="flex items-center justify-between mb-1.5">
+<div class="flex items-center gap-space-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Fuel &amp; Petrol</span>
+<span class="font-label-mono text-label-mono text-primary px-1 rounded bg-surface-container-highest">73%</span>
+</div>
+<div class="text-right">
+<span class="font-stat-md text-stat-md text-on-surface" id="exp-val-fuel">Rs 18,200</span>
+</div>
+</div>
+<div class="w-full h-1.5 rounded-full bg-surface-container overflow-hidden">
+<div class="h-full bg-primary rounded-full transition-all duration-700" style="width: 73%"></div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="group p-space-sm rounded-lg hover:bg-surface-container-high/40 transition-colors">
+<div class="flex items-center justify-between mb-1.5">
+<div class="flex items-center gap-space-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Bike Maintenance &amp; Service</span>
+<span class="font-label-mono text-label-mono text-secondary px-1 rounded bg-surface-container-highest">18%</span>
+</div>
+<div class="text-right">
+<span class="font-stat-md text-stat-md text-on-surface" id="exp-val-maint">Rs 4,500</span>
+</div>
+</div>
+<div class="w-full h-1.5 rounded-full bg-surface-container overflow-hidden">
+<div class="h-full bg-secondary rounded-full transition-all duration-700" style="width: 18%"></div>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="group p-space-sm rounded-lg hover:bg-surface-container-high/40 transition-colors">
+<div class="flex items-center justify-between mb-1.5">
+<div class="flex items-center gap-space-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-primary-container"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Mobile Data &amp; Subscriptions</span>
+<span class="font-label-mono text-label-mono text-on-surface-variant px-1 rounded bg-surface-container-highest">6%</span>
+</div>
+<div class="text-right">
+<span class="font-stat-md text-stat-md text-on-surface" id="exp-val-data">Rs 1,500</span>
+</div>
+</div>
+<div class="w-full h-1.5 rounded-full bg-surface-container overflow-hidden">
+<div class="h-full bg-primary-container rounded-full transition-all duration-700" style="width: 6%"></div>
+</div>
+</div>
+<!-- Item 4 -->
+<div class="group p-space-sm rounded-lg hover:bg-surface-container-high/40 transition-colors">
+<div class="flex items-center justify-between mb-1.5">
+<div class="flex items-center gap-space-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-outline"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Tolls &amp; Miscellaneous</span>
+<span class="font-label-mono text-label-mono text-on-surface-variant px-1 rounded bg-surface-container-highest">3%</span>
+</div>
+<div class="text-right">
+<span class="font-stat-md text-stat-md text-on-surface" id="exp-val-misc">Rs 728</span>
+</div>
+</div>
+<div class="w-full h-1.5 rounded-full bg-surface-container overflow-hidden">
+<div class="h-full bg-outline rounded-full transition-all duration-700" style="width: 3%"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-space-lg pt-space-md flex items-center justify-between bg-surface-container/20 rounded-lg px-space-md py-space-sm">
+<span class="font-label-mono text-label-mono text-on-surface-variant">Cost Variance vs Previous Period</span>
+<span class="font-label-mono text-label-mono text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">arrow_downward</span> -4.1% Reduced Spend
+        </span>
+</div>
+</div>
+<!-- Right Panel: Income by Source + Donut Visualization -->
+<div class="lg:col-span-5 rounded-xl bg-surface-container-low p-space-lg shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-space-sm">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Income by Source</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Dispatched revenue channels</p>
+</div>
+<span class="font-label-mono text-label-mono text-secondary px-space-xs py-0.5 rounded bg-surface-container-high">Verified</span>
+</div>
+<!-- Inline SVG Ring Chart & Tabular Center -->
+<div class="relative flex items-center justify-center my-space-lg">
+<svg class="w-44 h-44 -rotate-90" viewbox="0 0 160 160">
+<!-- Background base circle -->
+<circle class="text-surface-container-high" cx="80" cy="80" fill="none" r="62" stroke="currentColor" stroke-width="14"></circle>
+<!-- Deliveries: 18% of 389.5 circ = 70.1 -->
+<circle class="text-secondary transition-all duration-700" cx="80" cy="80" fill="none" r="62" stroke="currentColor" stroke-dasharray="389.5" stroke-dashoffset="319.4" stroke-width="14"></circle>
+<!-- InDrive: 82% of 389.5 circ = 319.4 -->
+<circle class="text-primary transition-all duration-700" cx="80" cy="80" fill="none" r="62" stroke="currentColor" stroke-dasharray="319.4 389.5" stroke-dashoffset="0" stroke-width="14"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+<span class="font-label-mono text-label-mono text-on-surface-variant uppercase tracking-wider">Gross Sum</span>
+<span class="font-stat-md text-stat-md text-on-surface font-semibold" id="chart-inc-gross">Rs 27,699</span>
+</div>
+</div>
+<!-- Channels List -->
+<div class="flex flex-col gap-space-sm">
+<!-- InDrive Source Card -->
+<div class="p-space-md rounded-lg bg-surface-container/50 hover:bg-surface-container transition-colors flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">two_wheeler</span>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm text-on-surface">InDrive Rides</div>
+<div class="font-label-mono text-label-mono text-on-surface-variant">Passenger City Dispatch</div>
+</div>
+</div>
+<div class="text-right">
+<div class="font-stat-md text-stat-md text-on-surface" id="inc-val-indrive">Rs 22,710</div>
+<div class="font-label-mono text-label-mono text-primary">82% Volume</div>
+</div>
+</div>
+<!-- Package/Deliveries Source Card -->
+<div class="p-space-md rounded-lg bg-surface-container/50 hover:bg-surface-container transition-colors flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[18px]">inventory_2</span>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm text-on-surface">Package &amp; Food</div>
+<div class="font-label-mono text-label-mono text-on-surface-variant">Direct Courier Logistics</div>
+</div>
+</div>
+<div class="text-right">
+<div class="font-stat-md text-stat-md text-on-surface" id="inc-val-pkg">Rs 4,989</div>
+<div class="font-label-mono text-label-mono text-secondary">18% Volume</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Platform Ratio Banner -->
+<div class="mt-space-md pt-space-xs text-center">
+<span class="font-label-mono text-label-mono text-on-surface-variant">Dominant revenue engine: InDrive mobility index</span>
+</div>
+</div>
+</div>
+<!-- Row 3: Bottom Row - Fuel Efficiency & Mileage Insights -->
+<div class="rounded-xl bg-surface-container-low p-space-lg shadow-sm">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-lg pb-space-lg">
+<div class="max-w-xl">
+<div class="flex items-center gap-space-xs mb-1">
+<span class="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+<span class="font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant">Dynamic Telemetry Correlation</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Mileage vs Fuel Expenditure Matrix</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Real-time analysis comparing odometer transit against pump disbursements. Evaluated against Yamaha YBR 125 baseline combustion benchmarks.</p>
+</div>
+<!-- Key Vector Metric Pair -->
+<div class="flex items-center gap-space-md bg-surface-container p-space-sm rounded-xl">
+<div class="px-space-md py-1 border-r border-outline-variant/30">
+<span class="font-label-mono text-label-mono text-on-surface-variant uppercase">Logged Distance</span>
+<div class="font-stat-lg text-stat-lg text-on-surface" id="metric-dist">1,240 <span class="text-body-sm font-normal text-on-surface-variant">km</span></div>
+</div>
+<div class="px-space-md py-1">
+<span class="font-label-mono text-label-mono text-on-surface-variant uppercase">Fuel Consumed</span>
+<div class="font-stat-lg text-stat-lg text-primary" id="metric-fuel-liters">28.7 <span class="text-body-sm font-normal text-on-surface-variant">Liters</span></div>
+</div>
+</div>
+</div>
+<!-- Triple Bento Insights Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Card 1: Machine Efficiency -->
+<div class="rounded-lg bg-surface-container p-space-md flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<span class="font-label-mono text-label-mono text-on-surface-variant uppercase">Combustion Rate</span>
+<span class="material-symbols-outlined text-secondary text-[20px]">eco</span>
+</div>
+<div class="my-space-md">
+<div class="font-stat-lg text-stat-lg text-secondary">43.2 km / L</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Nominal factory spec: 43.0 km / L</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-1.5 overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 100.4%"></div>
+</div>
+</div>
+<!-- Card 2: Savings Strategy Card -->
+<div class="rounded-lg bg-surface-container p-space-md flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<span class="font-label-mono text-label-mono text-on-surface-variant uppercase">Optimization Insight</span>
+<span class="material-symbols-outlined text-primary text-[20px]">lightbulb</span>
+</div>
+<div class="my-space-md">
+<div class="font-headline-sm text-headline-sm text-on-surface">Rs 1,420 Potential Savings</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Maintaining 45-50 km/h cruising corridors during morning surges will mitigate 2.2L of idling drag.</p>
+</div>
+<div class="flex items-center gap-1 font-label-mono text-label-mono text-primary">
+<span>Action: Smooth acceleration curve</span>
+</div>
+</div>
+<!-- Card 3: Asset Diagnostic Status -->
+<div class="rounded-lg bg-surface-container p-space-md flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<span class="font-label-mono text-label-mono text-on-surface-variant uppercase">Powertrain Integrity</span>
+<span class="material-symbols-outlined text-on-surface text-[20px]">build_circle</span>
+</div>
+<div class="my-space-md">
+<div class="font-headline-sm text-headline-sm text-on-surface">Service Buffer: 760 km</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Carburetor tune-up &amp; chain tensioning due at 2,000 km mark. Sustaining clean carb maintains current 73% ratio ceiling.</p>
+</div>
+<div class="flex items-center justify-between font-label-mono text-label-mono text-on-surface-variant">
+<span>Oil health: 62%</span>
+<span class="text-secondary">Normal range</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  const telemetryData = {
+    monthly: {
+      margin: '10.0%',
+      net: 'Rs 2,771',
+      gross: 'Rs 27,699',
+      fuelRatio: '73.0%',
+      totalExp: 'Rs 24,928',
+      fuelAmt: 'Rs 18,200',
+      dayGross: 'Rs 923',
+      dayNet: 'Rs 92 / day',
+      cpk: 'Rs 6.78',
+      distance: '1,240',
+      fuelLiters: '28.7',
+      expFuel: 'Rs 18,200',
+      expMaint: 'Rs 4,500',
+      expData: 'Rs 1,500',
+      expMisc: 'Rs 728',
+      incIndrive: 'Rs 22,710',
+      incPkg: 'Rs 4,989'
+    },
+    quarterly: {
+      margin: '12.4%',
+      net: 'Rs 10,240',
+      gross: 'Rs 82,450',
+      fuelRatio: '71.2%',
+      totalExp: 'Rs 72,210',
+      fuelAmt: 'Rs 51,400',
+      dayGross: 'Rs 916',
+      dayNet: 'Rs 113 / day',
+      cpk: 'Rs 6.64',
+      distance: '3,810',
+      fuelLiters: '88.1',
+      expFuel: 'Rs 51,400',
+      expMaint: 'Rs 14,200',
+      expData: 'Rs 4,500',
+      expMisc: 'Rs 2,110',
+      incIndrive: 'Rs 67,609',
+      incPkg: 'Rs 14,841'
+    }
+  };
+
+  function switchCadence(mode) {
+    const data = telemetryData[mode];
+    const btnM = document.getElementById('btn-monthly');
+    const btnQ = document.getElementById('btn-quarterly');
+
+    if (mode === 'monthly') {
+      btnM.className = 'cadence-btn px-space-md py-1.5 rounded font-label-mono text-label-mono transition-all bg-surface-container-high text-on-surface';
+      btnQ.className = 'cadence-btn px-space-md py-1.5 rounded font-label-mono text-label-mono transition-all text-on-surface-variant hover:text-on-surface';
+    } else {
+      btnQ.className = 'cadence-btn px-space-md py-1.5 rounded font-label-mono text-label-mono transition-all bg-surface-container-high text-on-surface';
+      btnM.className = 'cadence-btn px-space-md py-1.5 rounded font-label-mono text-label-mono transition-all text-on-surface-variant hover:text-on-surface';
+    }
+
+    // Update Text Elements with Smooth Micro-Interaction
+    document.getElementById('stat-margin-val').textContent = data.margin;
+    document.getElementById('stat-net-amt').textContent = data.net;
+    document.getElementById('stat-gross-amt').textContent = data.gross;
+    document.getElementById('stat-fuel-ratio').textContent = data.fuelRatio;
+    document.getElementById('stat-total-exp').textContent = data.totalExp;
+    document.getElementById('stat-fuel-amt').textContent = data.fuelAmt;
+    document.getElementById('stat-day-gross').textContent = data.dayGross;
+    document.getElementById('stat-day-net').textContent = data.dayNet;
+    document.getElementById('stat-cpk').textContent = data.cpk;
+    document.getElementById('chart-exp-total').textContent = data.totalExp;
+    document.getElementById('chart-inc-gross').textContent = data.gross;
+    document.getElementById('exp-val-fuel').textContent = data.expFuel;
+    document.getElementById('exp-val-maint').textContent = data.expMaint;
+    document.getElementById('exp-val-data').textContent = data.expData;
+    document.getElementById('exp-val-misc').textContent = data.expMisc;
+    document.getElementById('inc-val-indrive').textContent = data.incIndrive;
+    document.getElementById('inc-val-pkg').textContent = data.incPkg;
+    document.getElementById('metric-dist').innerHTML = data.distance + ' <span class="text-body-sm font-normal text-on-surface-variant">km</span>';
+    document.getElementById('metric-fuel-liters').innerHTML = data.fuelLiters + ' <span class="text-body-sm font-normal text-on-surface-variant">Liters</span>';
+  }
+</script></div></main><footer class="w-full bg-surface-container-lowest"><div class="max-w-[1240px] mx-auto px-margin md:px-margin-desktop py-space-xl flex flex-col sm:flex-row items-center justify-between gap-space-md"><div class="flex items-center gap-space-sm"><span class="font-label-mono text-label-mono text-on-surface-variant tracking-widest uppercase">Ledger OS • Personal Fleet &amp; Income Tracker</span></div><div class="flex items-center gap-space-lg"><span class="font-label-mono text-label-mono text-on-surface-variant">v2.4.0</span><span class="font-label-mono text-label-mono text-on-surface-variant">© 2024</span></div></div></footer></body></html>
